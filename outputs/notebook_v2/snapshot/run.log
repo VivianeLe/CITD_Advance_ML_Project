@@ -1,0 +1,135 @@
+
+[20261111T090145.207893Z] pid=22892 mode=snapshot backup=backup-build_model-20261111T090145.207893Z-22892.ipynb
+
+[cell 3] CFG = dict(
+dataset: PEMS04 | feature: flow (xe/5 phút)
+device: cuda:0 | torch 2.7.1+cu128 | AMP True
+GPU: NVIDIA GeForce RTX 3050 4GB Laptop GPU | VRAM 4.3 GB | CUDA 12.8
+[*] Đã có pems04.npz trong D:\do_an\CITD_Advance_ML_Project\data\pems04 -> bỏ qua bước tải
+    distance.csv  (0.0 MB)
+    pems04.npz  (33.0 MB)
+
+[cell 5] def load_data(
+[*] Dùng dữ liệu local: D:\do_an\CITD_Advance_ML_Project\data\pems04
+files: ['distance.csv', 'pems04.npz']
+[*] pems04.npz: shape (16992, 307, 3) (T, N, F)
+[*] Lấy đặc trưng kênh 0 = 'flow' làm biến huấn luyện / dự báo
+[*] Ma trận khoảng cách: distance.csv | 987 / 94,249 cặp có khoảng cách
+shape: (16992, 307)
+[display]                         0     1     2     3     4     5
+2018-01-01 00:00:00  62.0  56.0  90.0  32.0  19.0  68.0
+2018-01-01 00:05:00  61.0  40.0  94.0  25.0  16.0  64.0
+2018-01-01 00:10:00  71.0  28.0  79.0  36.0   9.0  60.0
+
+[cell 7] def validate(
+[display]                                        kiểm tra
+shape                              (16992, 307)
+index_is_datetime                          True
+index_monotonic_increasing                 True
+duplicated_timestamps                         0
+non_numeric_dtype_columns                    []
+text_cells_in_numeric_cols                    0
+nan_cells                                     0
+nan_pct                                     0.0
+zero_cells                                82935
+negative_cells                                0
+inf_cells                                     0
+missing_timestamps                            0
+start                       2018-01-01 00:00:00
+end                         2018-02-28 23:55:00
+sau làm sạch: T=16992, N=307, NaN=1.590%
+
+[cell 11] class SplitData:
+train  11894 bước | 2018-01-01 00:00:00 -> 2018-02-11 07:05:00 | NaN 1.67%
+val     1699 bước | 2018-02-11 07:10:00 -> 2018-02-17 04:40:00 | NaN 1.60%
+test    3399 bước | 2018-02-17 04:45:00 -> 2018-02-28 23:55:00 | NaN 1.30%
+
+[cell 13] def build_adjacency(
+adjacency: khoảng cách đường đi (Gaussian kernel, DCRNN) | cạnh: 680 | độ thưa: 0.007
+
+[cell 14] class BaseScaler:
+
+[cell 16] class STGCN(
+
+[cell 18] class MetricAcc:
+
+[cell 20] def train_model(
+
+[cell 22] def get_region(
+
+[cell 26] # EXPERIMENT_INPUTS_V2
+Input thử nghiệm sẵn sàng: flow/mask/thời gian; tùy chọn occupancy/speed quá khứ.
+
+[cell 27] # EXPERIMENT_MODELS_V2
+
+[cell 28] # EXPERIMENT_SEARCH_V2
+
+[cell 31] # EXPERIMENT_SNAPSHOT_V2
+TEST SẠCH — KẾT QUẢ MODEL ĐÃ CHỌN BẰNG VALIDATION:
+{
+  "winner_trial_id": "d025f625b55f",
+  "config": {
+    "name": "stid-exog-24",
+    "model": "STID",
+    "scaler": "log",
+    "n_past": 24,
+    "hidden": 128,
+    "lr": 0.001,
+    "use_exog": true,
+    "epochs": 100,
+    "seed": 42,
+    "batch_size": 32,
+    "eval_bs": 32,
+    "EPOCHS": 100,
+    "PATIENCE": 15,
+    "TRAIN_STRIDE": 1,
+    "NODE_EMB": 16,
+    "MODEL_DEPTH": 3,
+    "DROPOUT": 0.05,
+    "LR_PATIENCE": 5,
+    "LR_FACTOR": 0.5,
+    "MIN_LR": 1e-05
+  },
+  "completed_trials": 4,
+  "planned_trials": 6,
+  "validation": {
+    "val_MAE": 18.40393779399766,
+    "val_MAPE": 11.047890127933227,
+    "val_RMSE": 30.17423978726269
+  },
+  "train_loss": 0.11725233451723706,
+  "test": {
+    "MAE_15": 17.45234151328566,
+    "RMSE_15": 28.593416796294996,
+    "MAPE_15": 11.032985376651748,
+    "MAE_30": 18.314709251151015,
+    "RMSE_30": 30.075483358126785,
+    "MAPE_30": 11.533458173093107,
+    "MAE_60": 19.55001794632363,
+    "RMSE_60": 32.0089400218782,
+    "MAPE_60": 12.277622111568752,
+    "MAE_avg": 18.43902290358677,
+    "RMSE_avg": 30.225946725433328,
+    "MAPE_avg": 11.614688553771202
+  },
+  "target_met": {
+    "loss": false,
+    "test_MAPE": true
+  },
+  "protocol": "Snapshot chọn bằng validation trong các lượt đã hoàn tất; test sạch. Các lượt còn lại giữ nguyên kế hoạch, không chọn bằng test."
+}
+[display] MAE_15      17.452342
+RMSE_15     28.593417
+MAPE_15     11.032985
+MAE_30      18.314709
+RMSE_30     30.075483
+MAPE_30     11.533458
+MAE_60      19.550018
+RMSE_60     32.008940
+MAPE_60     12.277622
+MAE_avg     18.439023
+RMSE_avg    30.225947
+MAPE_avg    11.614689
+Name: test sạch, dtype: float64
+
+Notebook execution completed.

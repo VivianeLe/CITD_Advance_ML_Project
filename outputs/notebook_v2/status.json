@@ -1,0 +1,10 @@
+{
+  "pid": 30904,
+  "mode": "run",
+  "state": "running",
+  "started_utc": "20261111T081937.181975Z",
+  "notebook": "D:\\do_an\\CITD_Advance_ML_Project\\build_model.ipynb",
+  "backup": "D:\\do_an\\CITD_Advance_ML_Project\\outputs\\notebook_v2\\backup-build_model-20261111T081937.181975Z-30904.ipynb",
+  "current_cell": 30,
+  "current_marker": "# EXPERIMENT_RUN_V2"
+}

@@ -1,0 +1,110 @@
+[
+  {
+    "trial_id": "abe485faa2a1",
+    "config": {
+      "name": "stid-node-time",
+      "model": "STID",
+      "scaler": "log",
+      "n_past": 12,
+      "hidden": 128,
+      "lr": 0.001,
+      "use_exog": true,
+      "epochs": 1,
+      "seed": 42,
+      "batch_size": 32,
+      "eval_bs": 32,
+      "EPOCHS": 1,
+      "PATIENCE": 15,
+      "TRAIN_STRIDE": 1,
+      "NODE_EMB": 16,
+      "MODEL_DEPTH": 3,
+      "DROPOUT": 0.05,
+      "LR_PATIENCE": 5,
+      "LR_FACTOR": 0.5,
+      "MIN_LR": 1e-05
+    },
+    "status": "ok",
+    "val_MAE": 24.17409318787819,
+    "val_MAPE": 17.51944563551226,
+    "val_RMSE": 38.91600855031138,
+    "best_train_loss": 0.20672796288699388,
+    "min_train_loss": 0.20672796288699388,
+    "best_epoch": 1,
+    "epochs_run": 1,
+    "n_params": 396851,
+    "history": {
+      "train_loss": [
+        0.20672796288699388
+      ],
+      "val_MAE": [
+        24.17409318787819
+      ],
+      "val_MAPE": [
+        17.51944563551226
+      ],
+      "val_RMSE": [
+        38.91600855031138
+      ],
+      "lr": [
+        0.001
+      ]
+    },
+    "checkpoint": "abe485faa2a1.pt",
+    "n_in": 8,
+    "elapsed_s": 5.49
+  },
+  {
+    "trial_id": "caea11a20984",
+    "config": {
+      "name": "adaptive-exog",
+      "model": "GNN_ADAPT",
+      "scaler": "log",
+      "n_past": 12,
+      "hidden": 96,
+      "lr": 0.001,
+      "use_exog": true,
+      "epochs": 1,
+      "seed": 42,
+      "batch_size": 32,
+      "eval_bs": 32,
+      "EPOCHS": 1,
+      "PATIENCE": 15,
+      "TRAIN_STRIDE": 1,
+      "NODE_EMB": 16,
+      "MODEL_DEPTH": 3,
+      "DROPOUT": 0.05,
+      "LR_PATIENCE": 5,
+      "LR_FACTOR": 0.5,
+      "MIN_LR": 1e-05
+    },
+    "status": "ok",
+    "val_MAE": 24.08103849232975,
+    "val_MAPE": 16.7821788052877,
+    "val_RMSE": 39.037623055182195,
+    "best_train_loss": 0.20906704714092136,
+    "min_train_loss": 0.20906704714092136,
+    "best_epoch": 1,
+    "epochs_run": 1,
+    "n_params": 126707,
+    "history": {
+      "train_loss": [
+        0.20906704714092136
+      ],
+      "val_MAE": [
+        24.08103849232975
+      ],
+      "val_MAPE": [
+        16.7821788052877
+      ],
+      "val_RMSE": [
+        39.037623055182195
+      ],
+      "lr": [
+        0.001
+      ]
+    },
+    "checkpoint": "caea11a20984.pt",
+    "n_in": 8,
+    "elapsed_s": 0.62
+  }
+]

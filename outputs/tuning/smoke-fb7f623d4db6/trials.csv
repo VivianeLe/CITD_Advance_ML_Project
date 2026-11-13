@@ -1,0 +1,2 @@
+﻿augmentation,batch_size,best_epoch,best_train_loss,checkpoint,elapsed_s,epochs,epochs_run,eval_bs,hidden,lr,model,n_params,n_past,scaler,seed,stage,status,stride,trial_id,val_MAE,val_MAPE,val_RMSE
+clean,32,1,0.2744754630564189,smoke-e96dbb5b25a6.pt,6.01,1,1,32,64,0.001,STGCN,96195,12,standard,42,smoke,ok,8,smoke-e96dbb5b25a6,34.22883601689898,29.306816821249004,47.48438841970104

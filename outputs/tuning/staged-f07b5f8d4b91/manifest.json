@@ -1,0 +1,77 @@
+{
+  "provenance": {
+    "source_sha256": "de22e80e0f205058242a5698e05b462deaeae86da459a659016fdfe80571f073",
+    "data_sha256": "5c4c1a110dfbdef9937e78890522de90ae2f7d22a7dc2c374da11a3cbeda2266",
+    "cfg": {
+      "SEED": 42,
+      "DATASET": "PEMS04",
+      "DATA_DIR": "D:\\do_an\\CITD_Advance_ML_Project\\data\\pems04",
+      "HF_REPO": "TorchSpatiotemporal/ProcessedDatasets",
+      "HF_FILE": "traffic/pems04.zip",
+      "FEATURE_IDX": 0,
+      "ADJ_THR": 0.0,
+      "N_PAST": 12,
+      "HORIZONS": [
+        3,
+        6,
+        12
+      ],
+      "STEP_MIN": 5,
+      "SPLIT": [
+        0.7,
+        0.1,
+        0.2
+      ],
+      "ZERO_AS_MISSING": true,
+      "EPOCHS": 100,
+      "PATIENCE": 10,
+      "BATCH": 64,
+      "LR": 0.001,
+      "HIDDEN": 64,
+      "EVAL_BATCH": 64,
+      "TRAIN_STRIDE": 1,
+      "N_REP": 3,
+      "MASK_AUG": 0.3,
+      "MISS_RATES": [
+        0.05,
+        0.1,
+        0.2,
+        0.3
+      ],
+      "USE_ADJ_FEAT": true,
+      "RESIDUAL": true,
+      "USE_TOD": true,
+      "AMP": true,
+      "FAST": false,
+      "SYNTHETIC": false
+    },
+    "shape": [
+      16992,
+      307
+    ]
+  },
+  "plan": {
+    "version": 1,
+    "mode": "staged",
+    "monitor": "MAPE_avg",
+    "screen_epochs": 10,
+    "full_epochs": 100,
+    "screen_stride": 3,
+    "models": [
+      "GRU",
+      "GNN",
+      "STGCN"
+    ],
+    "scalers": [
+      "standard",
+      "minmax",
+      "log"
+    ],
+    "augmentation": [
+      "clean",
+      "fault"
+    ],
+    "runner_sha256": "272b09f5449df9b81be2652f71b447b89e6096b92cc57db030b5d131e2c4ab02"
+  },
+  "fingerprint": "f07b5f8d4b91f42231582aabf6d4820c15ebeb0575581977fab2ff276580dc0c"
+}
