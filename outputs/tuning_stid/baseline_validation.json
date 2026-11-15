@@ -1,0 +1,56 @@
+{
+  "checkpoint": "outputs/stid_standard.pkl",
+  "split": "validation",
+  "model": "STID",
+  "validation": {
+    "MAE_15": 18.030963646454865,
+    "RMSE_15": 29.682713569331383,
+    "MAPE_15": 11.053921002622124,
+    "MAE_30": 18.854760045280834,
+    "RMSE_30": 31.058798255987554,
+    "MAPE_30": 11.485777757182248,
+    "MAE_60": 19.85236965045711,
+    "RMSE_60": 32.60226408957108,
+    "MAPE_60": 12.096014702411933,
+    "MAE_avg": 18.912697780730937,
+    "RMSE_avg": 31.114591971630006,
+    "MAPE_avg": 11.54523782073877
+  },
+  "train_config": {
+    "model": "STID",
+    "scaler": "standard",
+    "n_past": 12,
+    "hidden": 64,
+    "lr": 0.001,
+    "batch_size": 64,
+    "eval_bs": 64,
+    "epochs": 100,
+    "seed": 42,
+    "train_stride": 1,
+    "mask_aug": 0.0,
+    "miss_rates": [
+      0.0,
+      0.05,
+      0.1,
+      0.2,
+      0.3
+    ],
+    "use_adj": true,
+    "adj_feat": true,
+    "monitor": "MAE_avg",
+    "evaluate_test": true
+  },
+  "model_options": {
+    "hidden": 64,
+    "n_past": 12,
+    "node_emb": 16,
+    "tod_slots": 288,
+    "weekend_slots": 2,
+    "use_time": true,
+    "depth": 3,
+    "dropout": 0.05,
+    "use_adj": true,
+    "residual": true
+  },
+  "elapsed_s": 1.91
+}

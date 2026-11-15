@@ -1,0 +1,61 @@
+{
+  "winner_trial_id": "full-7e24b474f834",
+  "stage": "full",
+  "provisional": false,
+  "config": {
+    "stage": "full",
+    "model": "STID",
+    "scaler": "standard",
+    "n_past": 24,
+    "hidden": 128,
+    "lr": 0.001,
+    "batch_size": 64,
+    "eval_bs": 64,
+    "node_emb": 32,
+    "depth": 3,
+    "dropout": 0.05,
+    "miss_rates": [
+      0.0,
+      0.05,
+      0.1,
+      0.2,
+      0.3
+    ],
+    "patience": 15,
+    "lr_patience": 5,
+    "seed": 42,
+    "epochs": 100,
+    "stride": 1
+  },
+  "cfg_overrides": {
+    "MODEL": "STID",
+    "SCALER": "standard",
+    "N_PAST": 24,
+    "HIDDEN": 128,
+    "LR": 0.001,
+    "BATCH": 64,
+    "EVAL_BATCH": 64,
+    "NODE_EMB": 32,
+    "MODEL_DEPTH": 3,
+    "DROPOUT": 0.05,
+    "MISS_RATES": [
+      0.0,
+      0.05,
+      0.1,
+      0.2,
+      0.3
+    ],
+    "TRAIN_STRIDE": 1,
+    "PATIENCE": 15,
+    "LR_PATIENCE": 5,
+    "EPOCHS": 100
+  },
+  "validation": {
+    "val_MAE": 18.25822151308618,
+    "val_MAPE": 11.074527021560845,
+    "val_RMSE": 30.44283250968589
+  },
+  "selection": "validation MAPE only; full-stage candidates preferred; test never used in selection",
+  "checkpoint": "D:\\do_an\\CITD_Advance_ML_Project\\outputs\\tuning_stid\\staged-6587c07b23fa\\full-7e24b474f834.pt",
+  "model_pkl": "D:\\do_an\\CITD_Advance_ML_Project\\outputs\\tuning_stid\\staged-6587c07b23fa\\best_model.pkl"
+}

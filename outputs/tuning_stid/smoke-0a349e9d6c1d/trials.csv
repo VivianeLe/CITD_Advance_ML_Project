@@ -1,0 +1,2 @@
+﻿batch_size,best_epoch,best_train_loss,checkpoint,depth,dropout,elapsed_s,epochs,epochs_run,eval_bs,hidden,lr,lr_patience,miss_rates,model,n_params,n_past,node_emb,patience,scaler,seed,stage,status,stride,trial_id,val_MAE,val_MAPE,val_RMSE
+32,1,0.7388607263565063,smoke-0cd0c215e6f0.pt,1,0.05,4.67,1,1,32,16,0.001,5,"(0.0, 0.05, 0.1, 0.2, 0.3)",STID,6919,12,4,15,standard,42,smoke,ok,8,smoke-0cd0c215e6f0,36.82584594940864,14.807436658287225,53.90259592897028
