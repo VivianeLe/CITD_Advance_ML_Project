@@ -1,0 +1,47 @@
+[
+  {
+    "trial_id": "smoke-e96dbb5b25a6",
+    "stage": "smoke",
+    "config": {
+      "stage": "smoke",
+      "model": "STGCN",
+      "scaler": "standard",
+      "augmentation": "clean",
+      "n_past": 12,
+      "hidden": 64,
+      "lr": 0.001,
+      "batch_size": 32,
+      "eval_bs": 32,
+      "seed": 42,
+      "epochs": 1,
+      "stride": 8
+    },
+    "status": "ok",
+    "val_MAE": 34.22883601689898,
+    "val_MAPE": 29.306816821249004,
+    "val_RMSE": 47.48438841970104,
+    "best_epoch": 1,
+    "epochs_run": 1,
+    "best_train_loss": 0.2744754630564189,
+    "n_params": 96195,
+    "history": {
+      "train_loss": [
+        0.2744754630564189
+      ],
+      "val_MAE": [
+        34.22883601689898
+      ],
+      "val_MAPE": [
+        29.306816821249004
+      ],
+      "val_RMSE": [
+        47.48438841970104
+      ],
+      "lr": [
+        0.001
+      ]
+    },
+    "checkpoint": "smoke-e96dbb5b25a6.pt",
+    "elapsed_s": 6.01
+  }
+]

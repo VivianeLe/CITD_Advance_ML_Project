@@ -1,0 +1,52 @@
+{
+  "winner_trial_id": "d025f625b55f",
+  "config": {
+    "name": "stid-exog-24",
+    "model": "STID",
+    "scaler": "log",
+    "n_past": 24,
+    "hidden": 128,
+    "lr": 0.001,
+    "use_exog": true,
+    "epochs": 100,
+    "seed": 42,
+    "batch_size": 32,
+    "eval_bs": 32,
+    "EPOCHS": 100,
+    "PATIENCE": 15,
+    "TRAIN_STRIDE": 1,
+    "NODE_EMB": 16,
+    "MODEL_DEPTH": 3,
+    "DROPOUT": 0.05,
+    "LR_PATIENCE": 5,
+    "LR_FACTOR": 0.5,
+    "MIN_LR": 1e-05
+  },
+  "completed_trials": 6,
+  "planned_trials": 6,
+  "validation": {
+    "val_MAE": 18.40393779399766,
+    "val_MAPE": 11.047890127933227,
+    "val_RMSE": 30.17423978726269
+  },
+  "train_loss": 0.11725233451723706,
+  "test": {
+    "MAE_15": 17.45234151328566,
+    "RMSE_15": 28.593416796294996,
+    "MAPE_15": 11.032985376651748,
+    "MAE_30": 18.314709251151015,
+    "RMSE_30": 30.075483358126785,
+    "MAPE_30": 11.533458173093107,
+    "MAE_60": 19.55001794632363,
+    "RMSE_60": 32.0089400218782,
+    "MAPE_60": 12.277622111568752,
+    "MAE_avg": 18.43902290358677,
+    "RMSE_avg": 30.225946725433328,
+    "MAPE_avg": 11.614688553771202
+  },
+  "target_met": {
+    "loss": false,
+    "test_MAPE": true
+  },
+  "protocol": "Snapshot chọn bằng validation trong các lượt đã hoàn tất; test sạch. Các lượt còn lại giữ nguyên kế hoạch, không chọn bằng test."
+}

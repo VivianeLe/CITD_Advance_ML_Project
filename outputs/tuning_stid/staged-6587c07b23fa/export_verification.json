@@ -1,0 +1,23 @@
+{
+  "status": "passed",
+  "device": "cpu",
+  "training_performed": false,
+  "data_loaded": false,
+  "winner_trial_id": "full-7e24b474f834",
+  "source_snapshot": "D:\\do_an\\CITD_Advance_ML_Project\\outputs\\tuning_stid\\staged-6587c07b23fa\\source-notebook.ipynb",
+  "export": "D:\\do_an\\CITD_Advance_ML_Project\\outputs\\tuning_stid\\staged-6587c07b23fa\\best_model.pkl",
+  "checkpoint": "D:\\do_an\\CITD_Advance_ML_Project\\outputs\\tuning_stid\\staged-6587c07b23fa\\full-7e24b474f834.pt",
+  "prediction_shape": [
+    2,
+    307,
+    3
+  ],
+  "checks": [
+    "checkpoint_state_matches",
+    "saved_scaler_imputer_adjacency_match",
+    "finite_prediction_with_expected_shape",
+    "ambient_cfg_does_not_override_options",
+    "reload_predictions_identical",
+    "save_load_roundtrip_identical"
+  ]
+}

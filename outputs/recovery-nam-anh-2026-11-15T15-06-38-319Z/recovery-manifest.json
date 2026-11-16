@@ -1,0 +1,61 @@
+{
+  "original": "D:/do_an/CITD_Advance_ML_Project/build_model - Nam Anh.ipynb",
+  "originalSha256": "ec8ff5ed02e07ceffd2ffd4533771c9a4e3e4698c6369bd18a11d1d89d3e4b53",
+  "coreSource": "outputs/backups/build_model-Nam-Anh-before-stid-20261114-060553-484346.ipynb",
+  "conflictsResolved": 32,
+  "recoveredCells": 30,
+  "defaultModel": "STID",
+  "stidCopiedVerbatim": true,
+  "unchangedCoreCells": [
+    {
+      "index": 4,
+      "unchanged": true
+    },
+    {
+      "index": 6,
+      "unchanged": true
+    },
+    {
+      "index": 8,
+      "unchanged": true
+    },
+    {
+      "index": 10,
+      "unchanged": true
+    },
+    {
+      "index": 12,
+      "unchanged": true
+    },
+    {
+      "index": 13,
+      "unchanged": true
+    },
+    {
+      "index": 17,
+      "unchanged": true
+    },
+    {
+      "index": 19,
+      "unchanged": true
+    },
+    {
+      "index": 21,
+      "unchanged": true
+    }
+  ],
+  "updatedCells": [
+    0,
+    2,
+    14,
+    15,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29
+  ]
+}

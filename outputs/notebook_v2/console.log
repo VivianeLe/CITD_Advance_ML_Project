@@ -1,0 +1,444 @@
+
+[20261111T081937.181975Z] pid=30904 mode=run backup=backup-build_model-20261111T081937.181975Z-30904.ipynb
+
+[cell 3] CFG = dict(
+dataset: PEMS04 | feature: flow (xe/5 phút)
+device: cuda:0 | torch 2.7.1+cu128 | AMP True
+GPU: NVIDIA GeForce RTX 3050 4GB Laptop GPU | VRAM 4.3 GB | CUDA 12.8
+[*] Đã có pems04.npz trong D:\do_an\CITD_Advance_ML_Project\data\pems04 -> bỏ qua bước tải
+    distance.csv  (0.0 MB)
+    pems04.npz  (33.0 MB)
+
+[cell 5] def load_data(
+[*] Dùng dữ liệu local: D:\do_an\CITD_Advance_ML_Project\data\pems04
+files: ['distance.csv', 'pems04.npz']
+[*] pems04.npz: shape (16992, 307, 3) (T, N, F)
+[*] Lấy đặc trưng kênh 0 = 'flow' làm biến huấn luyện / dự báo
+[*] Ma trận khoảng cách: distance.csv | 987 / 94,249 cặp có khoảng cách
+shape: (16992, 307)
+[display]                         0     1     2     3     4     5
+2018-01-01 00:00:00  62.0  56.0  90.0  32.0  19.0  68.0
+2018-01-01 00:05:00  61.0  40.0  94.0  25.0  16.0  64.0
+2018-01-01 00:10:00  71.0  28.0  79.0  36.0   9.0  60.0
+
+[cell 7] def validate(
+[display]                                        kiểm tra
+shape                              (16992, 307)
+index_is_datetime                          True
+index_monotonic_increasing                 True
+duplicated_timestamps                         0
+non_numeric_dtype_columns                    []
+text_cells_in_numeric_cols                    0
+nan_cells                                     0
+nan_pct                                     0.0
+zero_cells                                82935
+negative_cells                                0
+inf_cells                                     0
+missing_timestamps                            0
+start                       2018-01-01 00:00:00
+end                         2018-02-28 23:55:00
+sau làm sạch: T=16992, N=307, NaN=1.590%
+
+[cell 11] class SplitData:
+train  11894 bước | 2018-01-01 00:00:00 -> 2018-02-11 07:05:00 | NaN 1.67%
+val     1699 bước | 2018-02-11 07:10:00 -> 2018-02-17 04:40:00 | NaN 1.60%
+test    3399 bước | 2018-02-17 04:45:00 -> 2018-02-28 23:55:00 | NaN 1.30%
+
+[cell 13] def build_adjacency(
+adjacency: khoảng cách đường đi (Gaussian kernel, DCRNN) | cạnh: 680 | độ thưa: 0.007
+
+[cell 14] class BaseScaler:
+
+[cell 16] class STGCN(
+
+[cell 18] class MetricAcc:
+
+[cell 20] def train_model(
+
+[cell 22] def get_region(
+
+[cell 26] # EXPERIMENT_INPUTS_V2
+Input thử nghiệm sẵn sàng: flow/mask/thời gian; tùy chọn occupancy/speed quá khứ.
+
+[cell 27] # EXPERIMENT_MODELS_V2
+
+[cell 28] # EXPERIMENT_SEARCH_V2
+
+[cell 30] # EXPERIMENT_RUN_V2
+GPU: NVIDIA GeForce RTX 3050 4GB Laptop GPU | Kết quả: D:\do_an\CITD_Advance_ML_Project\outputs\notebook_v2\search-f3eb52f5794d
+
+THỬ stid-node-time | {'name': 'stid-node-time', 'model': 'STID', 'scaler': 'log', 'n_past': 12, 'hidden': 128, 'lr': 0.001, 'use_exog': False} | N_IN=6
+  [STID/log+v2-stid-node-time] ep 001 loss 0.1644 val_MAE 23.276 val_MAPE 13.884% val_RMSE 36.380 lr 0.001
+  [STID/log+v2-stid-node-time] ep 002 loss 0.1463 val_MAE 21.800 val_MAPE 12.981% val_RMSE 34.326 lr 0.001
+  [STID/log+v2-stid-node-time] ep 003 loss 0.1410 val_MAE 20.680 val_MAPE 12.321% val_RMSE 32.978 lr 0.001
+  [STID/log+v2-stid-node-time] ep 004 loss 0.1377 val_MAE 20.393 val_MAPE 12.109% val_RMSE 32.489 lr 0.001
+  [STID/log+v2-stid-node-time] ep 005 loss 0.1356 val_MAE 20.250 val_MAPE 12.143% val_RMSE 32.380 lr 0.001
+  [STID/log+v2-stid-node-time] ep 006 loss 0.1339 val_MAE 20.400 val_MAPE 12.012% val_RMSE 32.392 lr 0.001
+  [STID/log+v2-stid-node-time] ep 007 loss 0.1327 val_MAE 19.774 val_MAPE 12.328% val_RMSE 31.811 lr 0.001
+  [STID/log+v2-stid-node-time] ep 008 loss 0.1325 val_MAE 19.740 val_MAPE 11.892% val_RMSE 31.542 lr 0.001
+  [STID/log+v2-stid-node-time] ep 009 loss 0.1312 val_MAE 19.909 val_MAPE 11.987% val_RMSE 32.092 lr 0.001
+  [STID/log+v2-stid-node-time] ep 010 loss 0.1308 val_MAE 19.710 val_MAPE 11.731% val_RMSE 31.497 lr 0.001
+  [STID/log+v2-stid-node-time] ep 011 loss 0.1301 val_MAE 19.431 val_MAPE 11.770% val_RMSE 31.340 lr 0.001
+  [STID/log+v2-stid-node-time] ep 012 loss 0.1298 val_MAE 19.454 val_MAPE 11.813% val_RMSE 31.322 lr 0.001
+  [STID/log+v2-stid-node-time] ep 013 loss 0.1290 val_MAE 19.552 val_MAPE 11.842% val_RMSE 31.364 lr 0.001
+  [STID/log+v2-stid-node-time] ep 014 loss 0.1284 val_MAE 19.585 val_MAPE 11.920% val_RMSE 31.395 lr 0.001
+  [STID/log+v2-stid-node-time] ep 015 loss 0.1281 val_MAE 19.390 val_MAPE 11.583% val_RMSE 31.273 lr 0.001
+  [STID/log+v2-stid-node-time] ep 016 loss 0.1282 val_MAE 19.682 val_MAPE 11.573% val_RMSE 31.454 lr 0.001
+  [STID/log+v2-stid-node-time] ep 017 loss 0.1283 val_MAE 19.532 val_MAPE 11.721% val_RMSE 31.507 lr 0.001
+  [STID/log+v2-stid-node-time] ep 018 loss 0.1273 val_MAE 19.949 val_MAPE 11.938% val_RMSE 31.804 lr 0.001
+  [STID/log+v2-stid-node-time] ep 019 loss 0.1268 val_MAE 19.049 val_MAPE 11.439% val_RMSE 30.793 lr 0.001
+  [STID/log+v2-stid-node-time] ep 020 loss 0.1269 val_MAE 19.279 val_MAPE 11.503% val_RMSE 31.115 lr 0.001
+  [STID/log+v2-stid-node-time] ep 021 loss 0.1264 val_MAE 19.314 val_MAPE 11.633% val_RMSE 31.036 lr 0.001
+  [STID/log+v2-stid-node-time] ep 022 loss 0.1264 val_MAE 19.514 val_MAPE 11.382% val_RMSE 31.306 lr 0.001
+  [STID/log+v2-stid-node-time] ep 023 loss 0.1262 val_MAE 19.104 val_MAPE 11.552% val_RMSE 30.981 lr 0.001
+  [STID/log+v2-stid-node-time] ep 024 loss 0.1260 val_MAE 19.128 val_MAPE 11.450% val_RMSE 30.979 lr 0.001
+  [STID/log+v2-stid-node-time] ep 025 loss 0.1260 val_MAE 19.608 val_MAPE 11.535% val_RMSE 31.402 lr 0.001
+  [STID/log+v2-stid-node-time] ep 026 loss 0.1255 val_MAE 19.251 val_MAPE 11.667% val_RMSE 31.030 lr 0.001
+  [STID/log+v2-stid-node-time] ep 027 loss 0.1254 val_MAE 19.360 val_MAPE 11.613% val_RMSE 31.134 lr 0.001
+  [STID/log+v2-stid-node-time] ep 028 loss 0.1251 val_MAE 18.953 val_MAPE 11.380% val_RMSE 30.678 lr 0.001
+  [STID/log+v2-stid-node-time] ep 029 loss 0.1251 val_MAE 19.128 val_MAPE 11.438% val_RMSE 30.993 lr 0.001
+  [STID/log+v2-stid-node-time] ep 030 loss 0.1251 val_MAE 19.016 val_MAPE 11.710% val_RMSE 30.871 lr 0.001
+  [STID/log+v2-stid-node-time] ep 031 loss 0.1250 val_MAE 18.874 val_MAPE 11.471% val_RMSE 30.738 lr 0.001
+  [STID/log+v2-stid-node-time] ep 032 loss 0.1250 val_MAE 19.077 val_MAPE 11.477% val_RMSE 30.893 lr 0.001
+  [STID/log+v2-stid-node-time] ep 033 loss 0.1244 val_MAE 18.847 val_MAPE 11.466% val_RMSE 30.713 lr 0.001
+  [STID/log+v2-stid-node-time] ep 034 loss 0.1245 val_MAE 18.955 val_MAPE 11.478% val_RMSE 30.708 lr 0.001
+  [STID/log+v2-stid-node-time] ep 035 loss 0.1226 val_MAE 18.791 val_MAPE 11.242% val_RMSE 30.654 lr 0.0005
+  [STID/log+v2-stid-node-time] ep 036 loss 0.1224 val_MAE 18.696 val_MAPE 11.376% val_RMSE 30.527 lr 0.0005
+  [STID/log+v2-stid-node-time] ep 037 loss 0.1223 val_MAE 18.729 val_MAPE 11.271% val_RMSE 30.530 lr 0.0005
+  [STID/log+v2-stid-node-time] ep 038 loss 0.1224 val_MAE 18.833 val_MAPE 11.510% val_RMSE 30.733 lr 0.0005
+  [STID/log+v2-stid-node-time] ep 039 loss 0.1222 val_MAE 18.807 val_MAPE 11.214% val_RMSE 30.648 lr 0.0005
+  [STID/log+v2-stid-node-time] ep 040 loss 0.1223 val_MAE 18.724 val_MAPE 11.320% val_RMSE 30.676 lr 0.0005
+  [STID/log+v2-stid-node-time] ep 041 loss 0.1223 val_MAE 18.687 val_MAPE 11.239% val_RMSE 30.559 lr 0.0005
+  [STID/log+v2-stid-node-time] ep 042 loss 0.1221 val_MAE 18.812 val_MAPE 11.282% val_RMSE 30.610 lr 0.0005
+  [STID/log+v2-stid-node-time] ep 043 loss 0.1220 val_MAE 18.735 val_MAPE 11.277% val_RMSE 30.608 lr 0.0005
+  [STID/log+v2-stid-node-time] ep 044 loss 0.1220 val_MAE 18.656 val_MAPE 11.263% val_RMSE 30.542 lr 0.0005
+  [STID/log+v2-stid-node-time] ep 045 loss 0.1220 val_MAE 18.744 val_MAPE 11.310% val_RMSE 30.720 lr 0.0005
+  [STID/log+v2-stid-node-time] ep 046 loss 0.1211 val_MAE 18.578 val_MAPE 11.241% val_RMSE 30.425 lr 0.00025
+  [STID/log+v2-stid-node-time] ep 047 loss 0.1210 val_MAE 18.602 val_MAPE 11.237% val_RMSE 30.491 lr 0.00025
+  [STID/log+v2-stid-node-time] ep 048 loss 0.1209 val_MAE 18.682 val_MAPE 11.198% val_RMSE 30.504 lr 0.00025
+  [STID/log+v2-stid-node-time] ep 049 loss 0.1210 val_MAE 18.581 val_MAPE 11.178% val_RMSE 30.412 lr 0.00025
+  [STID/log+v2-stid-node-time] ep 050 loss 0.1210 val_MAE 18.658 val_MAPE 11.206% val_RMSE 30.502 lr 0.00025
+  [STID/log+v2-stid-node-time] ep 051 loss 0.1209 val_MAE 18.563 val_MAPE 11.183% val_RMSE 30.431 lr 0.00025
+  [STID/log+v2-stid-node-time] ep 052 loss 0.1208 val_MAE 18.548 val_MAPE 11.211% val_RMSE 30.445 lr 0.00025
+  [STID/log+v2-stid-node-time] ep 053 loss 0.1208 val_MAE 18.537 val_MAPE 11.173% val_RMSE 30.422 lr 0.00025
+  [STID/log+v2-stid-node-time] ep 054 loss 0.1208 val_MAE 18.609 val_MAPE 11.186% val_RMSE 30.453 lr 0.00025
+  [STID/log+v2-stid-node-time] ep 055 loss 0.1208 val_MAE 18.649 val_MAPE 11.258% val_RMSE 30.552 lr 0.00025
+  [STID/log+v2-stid-node-time] ep 056 loss 0.1207 val_MAE 18.605 val_MAPE 11.259% val_RMSE 30.477 lr 0.00025
+  [STID/log+v2-stid-node-time] ep 057 loss 0.1207 val_MAE 18.602 val_MAPE 11.318% val_RMSE 30.573 lr 0.00025
+  [STID/log+v2-stid-node-time] ep 058 loss 0.1207 val_MAE 18.559 val_MAPE 11.226% val_RMSE 30.500 lr 0.00025
+  [STID/log+v2-stid-node-time] ep 059 loss 0.1206 val_MAE 18.673 val_MAPE 11.234% val_RMSE 30.550 lr 0.00025
+  [STID/log+v2-stid-node-time] ep 060 loss 0.1202 val_MAE 18.561 val_MAPE 11.159% val_RMSE 30.465 lr 0.00013
+  [STID/log+v2-stid-node-time] ep 061 loss 0.1202 val_MAE 18.526 val_MAPE 11.162% val_RMSE 30.478 lr 0.00013
+  [STID/log+v2-stid-node-time] ep 062 loss 0.1202 val_MAE 18.558 val_MAPE 11.244% val_RMSE 30.478 lr 0.00013
+  [STID/log+v2-stid-node-time] ep 063 loss 0.1201 val_MAE 18.559 val_MAPE 11.156% val_RMSE 30.513 lr 0.00013
+  [STID/log+v2-stid-node-time] ep 064 loss 0.1201 val_MAE 18.571 val_MAPE 11.230% val_RMSE 30.476 lr 0.00013
+  [STID/log+v2-stid-node-time] ep 065 loss 0.1201 val_MAE 18.592 val_MAPE 11.171% val_RMSE 30.521 lr 0.00013
+  [STID/log+v2-stid-node-time] ep 066 loss 0.1201 val_MAE 18.698 val_MAPE 11.163% val_RMSE 30.613 lr 0.00013
+  [STID/log+v2-stid-node-time] ep 067 loss 0.1201 val_MAE 18.574 val_MAPE 11.179% val_RMSE 30.501 lr 0.00013
+  [STID/log+v2-stid-node-time] ep 068 loss 0.1201 val_MAE 18.502 val_MAPE 11.150% val_RMSE 30.500 lr 0.00013
+  [STID/log+v2-stid-node-time] ep 069 loss 0.1200 val_MAE 18.579 val_MAPE 11.161% val_RMSE 30.543 lr 0.00013
+  [STID/log+v2-stid-node-time] ep 070 loss 0.1200 val_MAE 18.524 val_MAPE 11.200% val_RMSE 30.472 lr 0.00013
+  [STID/log+v2-stid-node-time] ep 071 loss 0.1200 val_MAE 18.569 val_MAPE 11.202% val_RMSE 30.525 lr 0.00013
+  [STID/log+v2-stid-node-time] ep 072 loss 0.1200 val_MAE 18.578 val_MAPE 11.145% val_RMSE 30.518 lr 0.00013
+  [STID/log+v2-stid-node-time] ep 073 loss 0.1200 val_MAE 18.534 val_MAPE 11.175% val_RMSE 30.457 lr 0.00013
+  [STID/log+v2-stid-node-time] ep 074 loss 0.1200 val_MAE 18.641 val_MAPE 11.169% val_RMSE 30.527 lr 0.00013
+  [STID/log+v2-stid-node-time] ep 075 loss 0.1200 val_MAE 18.613 val_MAPE 11.193% val_RMSE 30.538 lr 0.00013
+  [STID/log+v2-stid-node-time] ep 076 loss 0.1199 val_MAE 18.512 val_MAPE 11.220% val_RMSE 30.433 lr 0.00013
+  [STID/log+v2-stid-node-time] ep 077 loss 0.1199 val_MAE 18.489 val_MAPE 11.135% val_RMSE 30.415 lr 0.00013
+  [STID/log+v2-stid-node-time] ep 078 loss 0.1199 val_MAE 18.559 val_MAPE 11.168% val_RMSE 30.509 lr 0.00013
+  [STID/log+v2-stid-node-time] ep 079 loss 0.1199 val_MAE 18.627 val_MAPE 11.215% val_RMSE 30.532 lr 0.00013
+  [STID/log+v2-stid-node-time] ep 080 loss 0.1199 val_MAE 18.520 val_MAPE 11.126% val_RMSE 30.481 lr 0.00013
+  [STID/log+v2-stid-node-time] ep 081 loss 0.1198 val_MAE 18.578 val_MAPE 11.194% val_RMSE 30.522 lr 0.00013
+  [STID/log+v2-stid-node-time] ep 082 loss 0.1199 val_MAE 18.559 val_MAPE 11.167% val_RMSE 30.492 lr 0.00013
+  [STID/log+v2-stid-node-time] ep 083 loss 0.1198 val_MAE 18.536 val_MAPE 11.157% val_RMSE 30.484 lr 0.00013
+  [STID/log+v2-stid-node-time] ep 084 loss 0.1198 val_MAE 18.597 val_MAPE 11.157% val_RMSE 30.503 lr 0.00013
+  [STID/log+v2-stid-node-time] ep 085 loss 0.1198 val_MAE 18.506 val_MAPE 11.155% val_RMSE 30.443 lr 0.00013
+  [STID/log+v2-stid-node-time] ep 086 loss 0.1198 val_MAE 18.535 val_MAPE 11.149% val_RMSE 30.526 lr 0.00013
+  [STID/log+v2-stid-node-time] ep 087 loss 0.1196 val_MAE 18.488 val_MAPE 11.176% val_RMSE 30.472 lr 6.3e-05
+  [STID/log+v2-stid-node-time] ep 088 loss 0.1196 val_MAE 18.506 val_MAPE 11.151% val_RMSE 30.420 lr 6.3e-05
+  [STID/log+v2-stid-node-time] ep 089 loss 0.1196 val_MAE 18.535 val_MAPE 11.167% val_RMSE 30.530 lr 6.3e-05
+  [STID/log+v2-stid-node-time] ep 090 loss 0.1196 val_MAE 18.529 val_MAPE 11.120% val_RMSE 30.496 lr 6.3e-05
+  [STID/log+v2-stid-node-time] ep 091 loss 0.1195 val_MAE 18.511 val_MAPE 11.143% val_RMSE 30.481 lr 6.3e-05
+  [STID/log+v2-stid-node-time] ep 092 loss 0.1195 val_MAE 18.507 val_MAPE 11.165% val_RMSE 30.457 lr 6.3e-05
+  [STID/log+v2-stid-node-time] ep 093 loss 0.1195 val_MAE 18.567 val_MAPE 11.142% val_RMSE 30.473 lr 6.3e-05
+  [STID/log+v2-stid-node-time] ep 094 loss 0.1195 val_MAE 18.518 val_MAPE 11.116% val_RMSE 30.469 lr 6.3e-05
+  [STID/log+v2-stid-node-time] ep 095 loss 0.1195 val_MAE 18.524 val_MAPE 11.143% val_RMSE 30.479 lr 6.3e-05
+  [STID/log+v2-stid-node-time] ep 096 loss 0.1195 val_MAE 18.551 val_MAPE 11.125% val_RMSE 30.532 lr 6.3e-05
+  [STID/log+v2-stid-node-time] ep 097 loss 0.1195 val_MAE 18.550 val_MAPE 11.164% val_RMSE 30.470 lr 6.3e-05
+  [STID/log+v2-stid-node-time] ep 098 loss 0.1195 val_MAE 18.522 val_MAPE 11.193% val_RMSE 30.461 lr 6.3e-05
+  [STID/log+v2-stid-node-time] ep 099 loss 0.1195 val_MAE 18.496 val_MAPE 11.143% val_RMSE 30.450 lr 6.3e-05
+  [STID/log+v2-stid-node-time] ep 100 loss 0.1195 val_MAE 18.509 val_MAPE 11.148% val_RMSE 30.457 lr 6.3e-05
+XONG stid-node-time: loss 0.1195, val_MAE 18.518, val_MAPE 11.116%
+
+THỬ stid-exog-24 | {'name': 'stid-exog-24', 'model': 'STID', 'scaler': 'log', 'n_past': 24, 'hidden': 128, 'lr': 0.001, 'use_exog': True} | N_IN=8
+  [STID/log+v2-stid-exog-24] ep 001 loss 0.1697 val_MAE 24.573 val_MAPE 14.281% val_RMSE 38.372 lr 0.001
+  [STID/log+v2-stid-exog-24] ep 002 loss 0.1493 val_MAE 22.175 val_MAPE 13.625% val_RMSE 34.992 lr 0.001
+  [STID/log+v2-stid-exog-24] ep 003 loss 0.1428 val_MAE 21.333 val_MAPE 12.935% val_RMSE 34.039 lr 0.001
+  [STID/log+v2-stid-exog-24] ep 004 loss 0.1389 val_MAE 21.886 val_MAPE 12.979% val_RMSE 35.332 lr 0.001
+  [STID/log+v2-stid-exog-24] ep 005 loss 0.1370 val_MAE 20.914 val_MAPE 12.394% val_RMSE 33.134 lr 0.001
+  [STID/log+v2-stid-exog-24] ep 006 loss 0.1346 val_MAE 20.337 val_MAPE 12.346% val_RMSE 32.682 lr 0.001
+  [STID/log+v2-stid-exog-24] ep 007 loss 0.1328 val_MAE 21.668 val_MAPE 12.814% val_RMSE 34.063 lr 0.001
+  [STID/log+v2-stid-exog-24] ep 008 loss 0.1324 val_MAE 20.497 val_MAPE 12.235% val_RMSE 32.573 lr 0.001
+  [STID/log+v2-stid-exog-24] ep 009 loss 0.1315 val_MAE 19.626 val_MAPE 11.793% val_RMSE 31.564 lr 0.001
+  [STID/log+v2-stid-exog-24] ep 010 loss 0.1301 val_MAE 21.046 val_MAPE 12.769% val_RMSE 33.625 lr 0.001
+  [STID/log+v2-stid-exog-24] ep 011 loss 0.1293 val_MAE 21.103 val_MAPE 12.538% val_RMSE 34.077 lr 0.001
+  [STID/log+v2-stid-exog-24] ep 012 loss 0.1290 val_MAE 19.966 val_MAPE 12.189% val_RMSE 31.905 lr 0.001
+  [STID/log+v2-stid-exog-24] ep 013 loss 0.1282 val_MAE 21.221 val_MAPE 12.358% val_RMSE 33.493 lr 0.001
+  [STID/log+v2-stid-exog-24] ep 014 loss 0.1278 val_MAE 19.264 val_MAPE 11.503% val_RMSE 31.337 lr 0.001
+  [STID/log+v2-stid-exog-24] ep 015 loss 0.1272 val_MAE 19.610 val_MAPE 11.928% val_RMSE 31.467 lr 0.001
+  [STID/log+v2-stid-exog-24] ep 016 loss 0.1271 val_MAE 20.347 val_MAPE 11.733% val_RMSE 32.935 lr 0.001
+  [STID/log+v2-stid-exog-24] ep 017 loss 0.1267 val_MAE 19.358 val_MAPE 11.665% val_RMSE 31.240 lr 0.001
+  [STID/log+v2-stid-exog-24] ep 018 loss 0.1260 val_MAE 19.397 val_MAPE 11.575% val_RMSE 31.411 lr 0.001
+  [STID/log+v2-stid-exog-24] ep 019 loss 0.1259 val_MAE 19.250 val_MAPE 11.416% val_RMSE 31.025 lr 0.001
+  [STID/log+v2-stid-exog-24] ep 020 loss 0.1256 val_MAE 19.226 val_MAPE 11.735% val_RMSE 31.092 lr 0.001
+  [STID/log+v2-stid-exog-24] ep 021 loss 0.1249 val_MAE 19.559 val_MAPE 11.707% val_RMSE 31.412 lr 0.001
+  [STID/log+v2-stid-exog-24] ep 022 loss 0.1247 val_MAE 19.083 val_MAPE 11.545% val_RMSE 30.971 lr 0.001
+  [STID/log+v2-stid-exog-24] ep 023 loss 0.1245 val_MAE 19.055 val_MAPE 11.597% val_RMSE 31.119 lr 0.001
+  [STID/log+v2-stid-exog-24] ep 024 loss 0.1243 val_MAE 20.228 val_MAPE 11.791% val_RMSE 32.291 lr 0.001
+  [STID/log+v2-stid-exog-24] ep 025 loss 0.1240 val_MAE 19.280 val_MAPE 11.750% val_RMSE 31.034 lr 0.001
+  [STID/log+v2-stid-exog-24] ep 026 loss 0.1217 val_MAE 18.783 val_MAPE 11.309% val_RMSE 30.653 lr 0.0005
+  [STID/log+v2-stid-exog-24] ep 027 loss 0.1215 val_MAE 18.678 val_MAPE 11.331% val_RMSE 30.522 lr 0.0005
+  [STID/log+v2-stid-exog-24] ep 028 loss 0.1214 val_MAE 18.904 val_MAPE 11.317% val_RMSE 30.635 lr 0.0005
+  [STID/log+v2-stid-exog-24] ep 029 loss 0.1215 val_MAE 18.657 val_MAPE 11.329% val_RMSE 30.452 lr 0.0005
+  [STID/log+v2-stid-exog-24] ep 030 loss 0.1213 val_MAE 18.697 val_MAPE 11.210% val_RMSE 30.451 lr 0.0005
+  [STID/log+v2-stid-exog-24] ep 031 loss 0.1213 val_MAE 18.951 val_MAPE 11.235% val_RMSE 30.717 lr 0.0005
+  [STID/log+v2-stid-exog-24] ep 032 loss 0.1212 val_MAE 18.805 val_MAPE 11.664% val_RMSE 30.596 lr 0.0005
+  [STID/log+v2-stid-exog-24] ep 033 loss 0.1210 val_MAE 18.632 val_MAPE 11.252% val_RMSE 30.411 lr 0.0005
+  [STID/log+v2-stid-exog-24] ep 034 loss 0.1209 val_MAE 18.566 val_MAPE 11.299% val_RMSE 30.399 lr 0.0005
+  [STID/log+v2-stid-exog-24] ep 035 loss 0.1208 val_MAE 18.821 val_MAPE 11.274% val_RMSE 30.751 lr 0.0005
+  [STID/log+v2-stid-exog-24] ep 036 loss 0.1208 val_MAE 18.699 val_MAPE 11.183% val_RMSE 30.511 lr 0.0005
+  [STID/log+v2-stid-exog-24] ep 037 loss 0.1206 val_MAE 18.633 val_MAPE 11.275% val_RMSE 30.434 lr 0.0005
+  [STID/log+v2-stid-exog-24] ep 038 loss 0.1206 val_MAE 18.692 val_MAPE 11.141% val_RMSE 30.464 lr 0.0005
+  [STID/log+v2-stid-exog-24] ep 039 loss 0.1204 val_MAE 18.778 val_MAPE 11.364% val_RMSE 30.561 lr 0.0005
+  [STID/log+v2-stid-exog-24] ep 040 loss 0.1203 val_MAE 18.696 val_MAPE 11.294% val_RMSE 30.475 lr 0.0005
+  [STID/log+v2-stid-exog-24] ep 041 loss 0.1203 val_MAE 18.635 val_MAPE 11.347% val_RMSE 30.387 lr 0.0005
+  [STID/log+v2-stid-exog-24] ep 042 loss 0.1202 val_MAE 18.670 val_MAPE 11.316% val_RMSE 30.514 lr 0.0005
+  [STID/log+v2-stid-exog-24] ep 043 loss 0.1200 val_MAE 18.723 val_MAPE 11.138% val_RMSE 30.460 lr 0.0005
+  [STID/log+v2-stid-exog-24] ep 044 loss 0.1201 val_MAE 18.597 val_MAPE 11.327% val_RMSE 30.325 lr 0.0005
+  [STID/log+v2-stid-exog-24] ep 045 loss 0.1201 val_MAE 18.634 val_MAPE 11.289% val_RMSE 30.554 lr 0.0005
+  [STID/log+v2-stid-exog-24] ep 046 loss 0.1198 val_MAE 18.663 val_MAPE 11.224% val_RMSE 30.422 lr 0.0005
+  [STID/log+v2-stid-exog-24] ep 047 loss 0.1199 val_MAE 18.636 val_MAPE 11.326% val_RMSE 30.353 lr 0.0005
+  [STID/log+v2-stid-exog-24] ep 048 loss 0.1198 val_MAE 18.626 val_MAPE 11.244% val_RMSE 30.389 lr 0.0005
+  [STID/log+v2-stid-exog-24] ep 049 loss 0.1198 val_MAE 18.661 val_MAPE 11.177% val_RMSE 30.575 lr 0.0005
+  [STID/log+v2-stid-exog-24] ep 050 loss 0.1187 val_MAE 18.550 val_MAPE 11.075% val_RMSE 30.279 lr 0.00025
+  [STID/log+v2-stid-exog-24] ep 051 loss 0.1185 val_MAE 18.514 val_MAPE 11.104% val_RMSE 30.316 lr 0.00025
+  [STID/log+v2-stid-exog-24] ep 052 loss 0.1185 val_MAE 18.556 val_MAPE 11.185% val_RMSE 30.370 lr 0.00025
+  [STID/log+v2-stid-exog-24] ep 053 loss 0.1185 val_MAE 18.489 val_MAPE 11.106% val_RMSE 30.255 lr 0.00025
+  [STID/log+v2-stid-exog-24] ep 054 loss 0.1185 val_MAE 18.467 val_MAPE 11.087% val_RMSE 30.255 lr 0.00025
+  [STID/log+v2-stid-exog-24] ep 055 loss 0.1184 val_MAE 18.523 val_MAPE 11.259% val_RMSE 30.272 lr 0.00025
+  [STID/log+v2-stid-exog-24] ep 056 loss 0.1184 val_MAE 18.539 val_MAPE 11.069% val_RMSE 30.273 lr 0.00025
+  [STID/log+v2-stid-exog-24] ep 057 loss 0.1184 val_MAE 18.651 val_MAPE 11.169% val_RMSE 30.395 lr 0.00025
+  [STID/log+v2-stid-exog-24] ep 058 loss 0.1183 val_MAE 18.600 val_MAPE 11.120% val_RMSE 30.335 lr 0.00025
+  [STID/log+v2-stid-exog-24] ep 059 loss 0.1184 val_MAE 18.432 val_MAPE 11.138% val_RMSE 30.219 lr 0.00025
+  [STID/log+v2-stid-exog-24] ep 060 loss 0.1183 val_MAE 18.488 val_MAPE 11.181% val_RMSE 30.294 lr 0.00025
+  [STID/log+v2-stid-exog-24] ep 061 loss 0.1182 val_MAE 18.420 val_MAPE 11.155% val_RMSE 30.221 lr 0.00025
+  [STID/log+v2-stid-exog-24] ep 062 loss 0.1182 val_MAE 18.484 val_MAPE 11.211% val_RMSE 30.259 lr 0.00025
+  [STID/log+v2-stid-exog-24] ep 063 loss 0.1176 val_MAE 18.444 val_MAPE 11.141% val_RMSE 30.203 lr 0.00013
+  [STID/log+v2-stid-exog-24] ep 064 loss 0.1176 val_MAE 18.438 val_MAPE 11.076% val_RMSE 30.207 lr 0.00013
+  [STID/log+v2-stid-exog-24] ep 065 loss 0.1176 val_MAE 18.408 val_MAPE 11.086% val_RMSE 30.189 lr 0.00013
+  [STID/log+v2-stid-exog-24] ep 066 loss 0.1176 val_MAE 18.419 val_MAPE 11.140% val_RMSE 30.231 lr 0.00013
+  [STID/log+v2-stid-exog-24] ep 067 loss 0.1176 val_MAE 18.470 val_MAPE 11.087% val_RMSE 30.206 lr 0.00013
+  [STID/log+v2-stid-exog-24] ep 068 loss 0.1175 val_MAE 18.463 val_MAPE 11.094% val_RMSE 30.210 lr 0.00013
+  [STID/log+v2-stid-exog-24] ep 069 loss 0.1173 val_MAE 18.388 val_MAPE 11.077% val_RMSE 30.165 lr 6.3e-05
+  [STID/log+v2-stid-exog-24] ep 070 loss 0.1173 val_MAE 18.404 val_MAPE 11.048% val_RMSE 30.174 lr 6.3e-05
+  [STID/log+v2-stid-exog-24] ep 071 loss 0.1173 val_MAE 18.405 val_MAPE 11.090% val_RMSE 30.179 lr 6.3e-05
+  [STID/log+v2-stid-exog-24] ep 072 loss 0.1172 val_MAE 18.381 val_MAPE 11.084% val_RMSE 30.170 lr 6.3e-05
+  [STID/log+v2-stid-exog-24] ep 073 loss 0.1172 val_MAE 18.400 val_MAPE 11.073% val_RMSE 30.166 lr 6.3e-05
+  [STID/log+v2-stid-exog-24] ep 074 loss 0.1172 val_MAE 18.422 val_MAPE 11.057% val_RMSE 30.171 lr 6.3e-05
+  [STID/log+v2-stid-exog-24] ep 075 loss 0.1172 val_MAE 18.433 val_MAPE 11.060% val_RMSE 30.178 lr 6.3e-05
+  [STID/log+v2-stid-exog-24] ep 076 loss 0.1172 val_MAE 18.393 val_MAPE 11.102% val_RMSE 30.196 lr 6.3e-05
+  [STID/log+v2-stid-exog-24] ep 077 loss 0.1171 val_MAE 18.395 val_MAPE 11.054% val_RMSE 30.173 lr 3.1e-05
+  [STID/log+v2-stid-exog-24] ep 078 loss 0.1170 val_MAE 18.408 val_MAPE 11.082% val_RMSE 30.180 lr 3.1e-05
+  [STID/log+v2-stid-exog-24] ep 079 loss 0.1170 val_MAE 18.380 val_MAPE 11.076% val_RMSE 30.183 lr 3.1e-05
+  [STID/log+v2-stid-exog-24] ep 080 loss 0.1170 val_MAE 18.382 val_MAPE 11.070% val_RMSE 30.158 lr 3.1e-05
+  [STID/log+v2-stid-exog-24] ep 081 loss 0.1170 val_MAE 18.392 val_MAPE 11.092% val_RMSE 30.172 lr 3.1e-05
+  [STID/log+v2-stid-exog-24] ep 082 loss 0.1170 val_MAE 18.379 val_MAPE 11.052% val_RMSE 30.161 lr 3.1e-05
+  [STID/log+v2-stid-exog-24] ep 083 loss 0.1169 val_MAE 18.393 val_MAPE 11.049% val_RMSE 30.166 lr 1.6e-05
+  [STID/log+v2-stid-exog-24] ep 084 loss 0.1169 val_MAE 18.379 val_MAPE 11.068% val_RMSE 30.159 lr 1.6e-05
+  [STID/log+v2-stid-exog-24] ep 085 loss 0.1169 val_MAE 18.376 val_MAPE 11.068% val_RMSE 30.154 lr 1.6e-05
+XONG stid-exog-24: loss 0.1173, val_MAE 18.404, val_MAPE 11.048%
+
+THỬ adaptive-exog | {'name': 'adaptive-exog', 'model': 'GNN_ADAPT', 'scaler': 'log', 'n_past': 12, 'hidden': 96, 'lr': 0.001, 'use_exog': True} | N_IN=8
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 001 loss 0.1607 val_MAE 22.399 val_MAPE 13.568% val_RMSE 35.615 lr 0.001
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 002 loss 0.1416 val_MAE 21.337 val_MAPE 12.898% val_RMSE 33.664 lr 0.001
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 003 loss 0.1367 val_MAE 20.593 val_MAPE 12.551% val_RMSE 32.749 lr 0.001
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 004 loss 0.1339 val_MAE 20.093 val_MAPE 12.119% val_RMSE 32.152 lr 0.001
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 005 loss 0.1320 val_MAE 19.878 val_MAPE 11.990% val_RMSE 31.884 lr 0.001
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 006 loss 0.1308 val_MAE 19.711 val_MAPE 11.968% val_RMSE 31.583 lr 0.001
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 007 loss 0.1298 val_MAE 19.660 val_MAPE 11.944% val_RMSE 31.512 lr 0.001
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 008 loss 0.1290 val_MAE 19.599 val_MAPE 11.843% val_RMSE 31.456 lr 0.001
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 009 loss 0.1283 val_MAE 19.674 val_MAPE 11.961% val_RMSE 31.512 lr 0.001
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 010 loss 0.1275 val_MAE 19.498 val_MAPE 11.738% val_RMSE 31.518 lr 0.001
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 011 loss 0.1270 val_MAE 19.150 val_MAPE 11.696% val_RMSE 30.934 lr 0.001
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 012 loss 0.1266 val_MAE 19.260 val_MAPE 11.950% val_RMSE 31.094 lr 0.001
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 013 loss 0.1262 val_MAE 19.311 val_MAPE 11.758% val_RMSE 31.198 lr 0.001
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 014 loss 0.1258 val_MAE 19.142 val_MAPE 11.608% val_RMSE 30.977 lr 0.001
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 015 loss 0.1254 val_MAE 19.010 val_MAPE 11.505% val_RMSE 30.712 lr 0.001
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 016 loss 0.1251 val_MAE 19.078 val_MAPE 11.410% val_RMSE 30.805 lr 0.001
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 017 loss 0.1249 val_MAE 19.026 val_MAPE 11.449% val_RMSE 30.841 lr 0.001
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 018 loss 0.1245 val_MAE 18.958 val_MAPE 11.603% val_RMSE 30.770 lr 0.001
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 019 loss 0.1242 val_MAE 18.864 val_MAPE 11.514% val_RMSE 30.666 lr 0.001
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 020 loss 0.1240 val_MAE 18.877 val_MAPE 11.523% val_RMSE 30.629 lr 0.001
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 021 loss 0.1238 val_MAE 18.788 val_MAPE 11.645% val_RMSE 30.663 lr 0.001
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 022 loss 0.1235 val_MAE 18.781 val_MAPE 11.412% val_RMSE 30.457 lr 0.001
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 023 loss 0.1221 val_MAE 18.601 val_MAPE 11.290% val_RMSE 30.334 lr 0.0005
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 024 loss 0.1220 val_MAE 18.580 val_MAPE 11.388% val_RMSE 30.332 lr 0.0005
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 025 loss 0.1218 val_MAE 18.557 val_MAPE 11.363% val_RMSE 30.315 lr 0.0005
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 026 loss 0.1217 val_MAE 18.603 val_MAPE 11.293% val_RMSE 30.343 lr 0.0005
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 027 loss 0.1216 val_MAE 18.606 val_MAPE 11.330% val_RMSE 30.258 lr 0.0005
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 028 loss 0.1215 val_MAE 18.584 val_MAPE 11.252% val_RMSE 30.294 lr 0.0005
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 029 loss 0.1214 val_MAE 18.531 val_MAPE 11.335% val_RMSE 30.267 lr 0.0005
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 030 loss 0.1214 val_MAE 18.504 val_MAPE 11.320% val_RMSE 30.206 lr 0.0005
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 031 loss 0.1212 val_MAE 18.574 val_MAPE 11.332% val_RMSE 30.403 lr 0.0005
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 032 loss 0.1212 val_MAE 18.516 val_MAPE 11.297% val_RMSE 30.215 lr 0.0005
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 033 loss 0.1210 val_MAE 18.554 val_MAPE 11.283% val_RMSE 30.282 lr 0.0005
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 034 loss 0.1210 val_MAE 18.531 val_MAPE 11.271% val_RMSE 30.337 lr 0.0005
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 035 loss 0.1203 val_MAE 18.390 val_MAPE 11.210% val_RMSE 30.119 lr 0.00025
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 036 loss 0.1202 val_MAE 18.389 val_MAPE 11.197% val_RMSE 30.143 lr 0.00025
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 037 loss 0.1201 val_MAE 18.393 val_MAPE 11.259% val_RMSE 30.150 lr 0.00025
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 038 loss 0.1201 val_MAE 18.381 val_MAPE 11.207% val_RMSE 30.153 lr 0.00025
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 039 loss 0.1201 val_MAE 18.362 val_MAPE 11.200% val_RMSE 30.128 lr 0.00025
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 040 loss 0.1200 val_MAE 18.381 val_MAPE 11.245% val_RMSE 30.110 lr 0.00025
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 041 loss 0.1199 val_MAE 18.389 val_MAPE 11.213% val_RMSE 30.189 lr 0.00025
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 042 loss 0.1199 val_MAE 18.374 val_MAPE 11.228% val_RMSE 30.193 lr 0.00025
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 043 loss 0.1195 val_MAE 18.318 val_MAPE 11.218% val_RMSE 30.138 lr 0.00013
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 044 loss 0.1195 val_MAE 18.319 val_MAPE 11.150% val_RMSE 30.063 lr 0.00013
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 045 loss 0.1195 val_MAE 18.299 val_MAPE 11.202% val_RMSE 30.050 lr 0.00013
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 046 loss 0.1195 val_MAE 18.317 val_MAPE 11.223% val_RMSE 30.101 lr 0.00013
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 047 loss 0.1194 val_MAE 18.309 val_MAPE 11.222% val_RMSE 30.099 lr 0.00013
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 048 loss 0.1194 val_MAE 18.333 val_MAPE 11.249% val_RMSE 30.151 lr 0.00013
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 049 loss 0.1194 val_MAE 18.325 val_MAPE 11.184% val_RMSE 30.064 lr 0.00013
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 050 loss 0.1194 val_MAE 18.299 val_MAPE 11.168% val_RMSE 30.053 lr 0.00013
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 051 loss 0.1192 val_MAE 18.287 val_MAPE 11.153% val_RMSE 30.046 lr 6.3e-05
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 052 loss 0.1192 val_MAE 18.287 val_MAPE 11.206% val_RMSE 30.060 lr 6.3e-05
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 053 loss 0.1191 val_MAE 18.287 val_MAPE 11.189% val_RMSE 30.048 lr 6.3e-05
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 054 loss 0.1191 val_MAE 18.273 val_MAPE 11.161% val_RMSE 30.063 lr 6.3e-05
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 055 loss 0.1191 val_MAE 18.284 val_MAPE 11.194% val_RMSE 30.049 lr 6.3e-05
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 056 loss 0.1191 val_MAE 18.270 val_MAPE 11.184% val_RMSE 30.040 lr 6.3e-05
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 057 loss 0.1190 val_MAE 18.259 val_MAPE 11.174% val_RMSE 30.028 lr 3.1e-05
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 058 loss 0.1190 val_MAE 18.267 val_MAPE 11.173% val_RMSE 30.035 lr 3.1e-05
+  [GNN_ADAPT/log+v2-adaptive-exog] ep 059 loss 0.1190 val_MAE 18.267 val_MAPE 11.161% val_RMSE 30.041 lr 3.1e-05
+XONG adaptive-exog: loss 0.1195, val_MAE 18.319, val_MAPE 11.150%
+
+THỬ gnn-exog-24 | {'name': 'gnn-exog-24', 'model': 'GNN', 'scaler': 'log', 'n_past': 24, 'hidden': 128, 'lr': 0.001, 'use_exog': True} | N_IN=8
+  [GNN/log+v2-gnn-exog-24] ep 001 loss 0.1709 val_MAE 24.624 val_MAPE 14.800% val_RMSE 38.618 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 002 loss 0.1573 val_MAE 24.751 val_MAPE 15.016% val_RMSE 38.616 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 003 loss 0.1547 val_MAE 23.468 val_MAPE 14.463% val_RMSE 36.967 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 004 loss 0.1517 val_MAE 23.153 val_MAPE 14.048% val_RMSE 36.567 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 005 loss 0.1516 val_MAE 23.323 val_MAPE 14.429% val_RMSE 36.748 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 006 loss 0.1502 val_MAE 23.302 val_MAPE 14.097% val_RMSE 36.622 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 007 loss 0.1499 val_MAE 23.173 val_MAPE 13.925% val_RMSE 36.408 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 008 loss 0.1492 val_MAE 22.846 val_MAPE 13.705% val_RMSE 36.089 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 009 loss 0.1480 val_MAE 22.898 val_MAPE 13.759% val_RMSE 36.037 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 010 loss 0.1479 val_MAE 22.835 val_MAPE 13.880% val_RMSE 36.155 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 011 loss 0.1474 val_MAE 22.692 val_MAPE 13.578% val_RMSE 35.779 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 012 loss 0.1469 val_MAE 22.530 val_MAPE 13.593% val_RMSE 35.584 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 013 loss 0.1467 val_MAE 22.513 val_MAPE 13.584% val_RMSE 35.561 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 014 loss 0.1461 val_MAE 22.439 val_MAPE 13.537% val_RMSE 35.561 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 015 loss 0.1459 val_MAE 22.673 val_MAPE 14.066% val_RMSE 35.660 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 016 loss 0.1455 val_MAE 22.346 val_MAPE 13.462% val_RMSE 35.479 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 017 loss 0.1455 val_MAE 22.737 val_MAPE 14.050% val_RMSE 35.858 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 018 loss 0.1455 val_MAE 22.272 val_MAPE 13.425% val_RMSE 35.404 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 019 loss 0.1448 val_MAE 22.589 val_MAPE 13.613% val_RMSE 35.578 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 020 loss 0.1446 val_MAE 22.566 val_MAPE 13.479% val_RMSE 35.729 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 021 loss 0.1442 val_MAE 22.465 val_MAPE 13.535% val_RMSE 35.320 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 022 loss 0.1443 val_MAE 22.622 val_MAPE 13.730% val_RMSE 35.589 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 023 loss 0.1440 val_MAE 22.311 val_MAPE 13.303% val_RMSE 35.299 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 024 loss 0.1436 val_MAE 22.034 val_MAPE 13.386% val_RMSE 34.953 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 025 loss 0.1437 val_MAE 22.161 val_MAPE 13.352% val_RMSE 34.991 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 026 loss 0.1437 val_MAE 22.049 val_MAPE 13.313% val_RMSE 35.022 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 027 loss 0.1431 val_MAE 22.374 val_MAPE 13.450% val_RMSE 35.222 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 028 loss 0.1430 val_MAE 22.110 val_MAPE 13.371% val_RMSE 35.056 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 029 loss 0.1428 val_MAE 22.447 val_MAPE 13.275% val_RMSE 35.576 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 030 loss 0.1429 val_MAE 22.313 val_MAPE 13.413% val_RMSE 35.145 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 031 loss 0.1424 val_MAE 22.055 val_MAPE 13.241% val_RMSE 35.025 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 032 loss 0.1426 val_MAE 22.182 val_MAPE 13.668% val_RMSE 34.963 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 033 loss 0.1424 val_MAE 21.888 val_MAPE 13.166% val_RMSE 34.692 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 034 loss 0.1421 val_MAE 22.325 val_MAPE 13.300% val_RMSE 35.546 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 035 loss 0.1423 val_MAE 21.930 val_MAPE 13.472% val_RMSE 34.867 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 036 loss 0.1420 val_MAE 21.952 val_MAPE 13.075% val_RMSE 34.700 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 037 loss 0.1419 val_MAE 22.045 val_MAPE 13.276% val_RMSE 34.967 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 038 loss 0.1416 val_MAE 21.891 val_MAPE 13.148% val_RMSE 34.795 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 039 loss 0.1417 val_MAE 21.716 val_MAPE 13.144% val_RMSE 34.498 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 040 loss 0.1414 val_MAE 21.857 val_MAPE 13.098% val_RMSE 34.635 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 041 loss 0.1414 val_MAE 21.892 val_MAPE 13.124% val_RMSE 34.630 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 042 loss 0.1415 val_MAE 22.982 val_MAPE 13.287% val_RMSE 35.825 lr 0.001
+  [GNN/log+v2-gnn-exog-24] ep 043 loss 0.1402 val_MAE 21.624 val_MAPE 13.182% val_RMSE 34.373 lr 0.0005
+  [GNN/log+v2-gnn-exog-24] ep 044 loss 0.1400 val_MAE 21.861 val_MAPE 13.309% val_RMSE 34.582 lr 0.0005
+  [GNN/log+v2-gnn-exog-24] ep 045 loss 0.1400 val_MAE 21.618 val_MAPE 13.005% val_RMSE 34.431 lr 0.0005
+  [GNN/log+v2-gnn-exog-24] ep 046 loss 0.1401 val_MAE 21.618 val_MAPE 13.021% val_RMSE 34.357 lr 0.0005
+  [GNN/log+v2-gnn-exog-24] ep 047 loss 0.1399 val_MAE 21.620 val_MAPE 12.999% val_RMSE 34.326 lr 0.0005
+  [GNN/log+v2-gnn-exog-24] ep 048 loss 0.1399 val_MAE 21.662 val_MAPE 12.990% val_RMSE 34.407 lr 0.0005
+  [GNN/log+v2-gnn-exog-24] ep 049 loss 0.1399 val_MAE 21.572 val_MAPE 13.113% val_RMSE 34.404 lr 0.0005
+  [GNN/log+v2-gnn-exog-24] ep 050 loss 0.1398 val_MAE 21.530 val_MAPE 12.968% val_RMSE 34.276 lr 0.0005
+  [GNN/log+v2-gnn-exog-24] ep 051 loss 0.1397 val_MAE 21.536 val_MAPE 13.113% val_RMSE 34.312 lr 0.0005
+  [GNN/log+v2-gnn-exog-24] ep 052 loss 0.1396 val_MAE 21.593 val_MAPE 12.971% val_RMSE 34.369 lr 0.0005
+  [GNN/log+v2-gnn-exog-24] ep 053 loss 0.1397 val_MAE 21.822 val_MAPE 13.057% val_RMSE 34.529 lr 0.0005
+  [GNN/log+v2-gnn-exog-24] ep 054 loss 0.1397 val_MAE 21.541 val_MAPE 12.985% val_RMSE 34.250 lr 0.0005
+  [GNN/log+v2-gnn-exog-24] ep 055 loss 0.1395 val_MAE 21.528 val_MAPE 13.099% val_RMSE 34.308 lr 0.0005
+  [GNN/log+v2-gnn-exog-24] ep 056 loss 0.1396 val_MAE 21.531 val_MAPE 12.980% val_RMSE 34.286 lr 0.0005
+  [GNN/log+v2-gnn-exog-24] ep 057 loss 0.1389 val_MAE 21.565 val_MAPE 12.816% val_RMSE 34.272 lr 0.00025
+  [GNN/log+v2-gnn-exog-24] ep 058 loss 0.1389 val_MAE 21.576 val_MAPE 12.928% val_RMSE 34.249 lr 0.00025
+  [GNN/log+v2-gnn-exog-24] ep 059 loss 0.1389 val_MAE 21.426 val_MAPE 12.969% val_RMSE 34.107 lr 0.00025
+  [GNN/log+v2-gnn-exog-24] ep 060 loss 0.1389 val_MAE 21.561 val_MAPE 13.102% val_RMSE 34.182 lr 0.00025
+  [GNN/log+v2-gnn-exog-24] ep 061 loss 0.1388 val_MAE 21.511 val_MAPE 12.984% val_RMSE 34.194 lr 0.00025
+  [GNN/log+v2-gnn-exog-24] ep 062 loss 0.1388 val_MAE 21.493 val_MAPE 12.868% val_RMSE 34.182 lr 0.00025
+  [GNN/log+v2-gnn-exog-24] ep 063 loss 0.1388 val_MAE 21.462 val_MAPE 13.036% val_RMSE 34.143 lr 0.00025
+  [GNN/log+v2-gnn-exog-24] ep 064 loss 0.1385 val_MAE 21.401 val_MAPE 12.943% val_RMSE 34.089 lr 0.00013
+  [GNN/log+v2-gnn-exog-24] ep 065 loss 0.1385 val_MAE 21.480 val_MAPE 12.913% val_RMSE 34.155 lr 0.00013
+  [GNN/log+v2-gnn-exog-24] ep 066 loss 0.1385 val_MAE 21.409 val_MAPE 12.879% val_RMSE 34.123 lr 0.00013
+  [GNN/log+v2-gnn-exog-24] ep 067 loss 0.1384 val_MAE 21.417 val_MAPE 12.905% val_RMSE 34.160 lr 0.00013
+  [GNN/log+v2-gnn-exog-24] ep 068 loss 0.1384 val_MAE 21.421 val_MAPE 12.897% val_RMSE 34.143 lr 0.00013
+  [GNN/log+v2-gnn-exog-24] ep 069 loss 0.1384 val_MAE 21.392 val_MAPE 12.885% val_RMSE 34.091 lr 0.00013
+  [GNN/log+v2-gnn-exog-24] ep 070 loss 0.1383 val_MAE 21.378 val_MAPE 12.888% val_RMSE 34.090 lr 6.3e-05
+  [GNN/log+v2-gnn-exog-24] ep 071 loss 0.1383 val_MAE 21.374 val_MAPE 12.898% val_RMSE 34.093 lr 6.3e-05
+  [GNN/log+v2-gnn-exog-24] ep 072 loss 0.1382 val_MAE 21.385 val_MAPE 12.874% val_RMSE 34.084 lr 6.3e-05
+XONG gnn-exog-24: loss 0.1389, val_MAE 21.565, val_MAPE 12.816%
+
+THỬ stgcn-clean | {'name': 'stgcn-clean', 'model': 'STGCN', 'scaler': 'log', 'n_past': 12, 'hidden': 64, 'lr': 0.001, 'use_exog': False} | N_IN=6
+  [STGCN/log+v2-stgcn-clean] ep 001 loss 0.1713 val_MAE 24.155 val_MAPE 14.933% val_RMSE 37.767 lr 0.001
+  [STGCN/log+v2-stgcn-clean] ep 002 loss 0.1577 val_MAE 23.966 val_MAPE 14.571% val_RMSE 37.560 lr 0.001
+  [STGCN/log+v2-stgcn-clean] ep 003 loss 0.1557 val_MAE 24.828 val_MAPE 14.497% val_RMSE 38.511 lr 0.001
+  [STGCN/log+v2-stgcn-clean] ep 004 loss 0.1543 val_MAE 23.862 val_MAPE 14.271% val_RMSE 37.327 lr 0.001
+  [STGCN/log+v2-stgcn-clean] ep 005 loss 0.1536 val_MAE 23.560 val_MAPE 14.328% val_RMSE 36.948 lr 0.001
+  [STGCN/log+v2-stgcn-clean] ep 006 loss 0.1526 val_MAE 23.579 val_MAPE 14.627% val_RMSE 37.001 lr 0.001
+  [STGCN/log+v2-stgcn-clean] ep 007 loss 0.1518 val_MAE 23.647 val_MAPE 14.214% val_RMSE 37.130 lr 0.001
+  [STGCN/log+v2-stgcn-clean] ep 008 loss 0.1513 val_MAE 23.457 val_MAPE 13.991% val_RMSE 36.844 lr 0.001
+  [STGCN/log+v2-stgcn-clean] ep 009 loss 0.1508 val_MAE 23.350 val_MAPE 14.209% val_RMSE 36.780 lr 0.001
+  [STGCN/log+v2-stgcn-clean] ep 010 loss 0.1503 val_MAE 23.468 val_MAPE 14.314% val_RMSE 36.923 lr 0.001
+  [STGCN/log+v2-stgcn-clean] ep 011 loss 0.1497 val_MAE 23.288 val_MAPE 14.098% val_RMSE 36.618 lr 0.001
+  [STGCN/log+v2-stgcn-clean] ep 012 loss 0.1493 val_MAE 23.385 val_MAPE 14.044% val_RMSE 36.787 lr 0.001
+  [STGCN/log+v2-stgcn-clean] ep 013 loss 0.1491 val_MAE 23.039 val_MAPE 14.128% val_RMSE 36.354 lr 0.001
+  [STGCN/log+v2-stgcn-clean] ep 014 loss 0.1486 val_MAE 23.163 val_MAPE 14.053% val_RMSE 36.604 lr 0.001
+  [STGCN/log+v2-stgcn-clean] ep 015 loss 0.1473 val_MAE 22.953 val_MAPE 13.869% val_RMSE 36.270 lr 0.0005
+  [STGCN/log+v2-stgcn-clean] ep 016 loss 0.1471 val_MAE 22.919 val_MAPE 13.823% val_RMSE 36.226 lr 0.0005
+  [STGCN/log+v2-stgcn-clean] ep 017 loss 0.1469 val_MAE 22.909 val_MAPE 13.709% val_RMSE 36.235 lr 0.0005
+  [STGCN/log+v2-stgcn-clean] ep 018 loss 0.1467 val_MAE 22.966 val_MAPE 13.855% val_RMSE 36.230 lr 0.0005
+  [STGCN/log+v2-stgcn-clean] ep 019 loss 0.1465 val_MAE 22.923 val_MAPE 13.875% val_RMSE 36.208 lr 0.0005
+  [STGCN/log+v2-stgcn-clean] ep 020 loss 0.1464 val_MAE 22.775 val_MAPE 13.715% val_RMSE 36.079 lr 0.0005
+  [STGCN/log+v2-stgcn-clean] ep 021 loss 0.1462 val_MAE 22.870 val_MAPE 13.615% val_RMSE 36.176 lr 0.0005
+  [STGCN/log+v2-stgcn-clean] ep 022 loss 0.1460 val_MAE 22.816 val_MAPE 13.579% val_RMSE 36.173 lr 0.0005
+  [STGCN/log+v2-stgcn-clean] ep 023 loss 0.1458 val_MAE 22.728 val_MAPE 13.766% val_RMSE 36.039 lr 0.0005
+  [STGCN/log+v2-stgcn-clean] ep 024 loss 0.1458 val_MAE 22.721 val_MAPE 13.641% val_RMSE 35.991 lr 0.0005
+  [STGCN/log+v2-stgcn-clean] ep 025 loss 0.1456 val_MAE 22.787 val_MAPE 13.684% val_RMSE 36.117 lr 0.0005
+  [STGCN/log+v2-stgcn-clean] ep 026 loss 0.1455 val_MAE 22.676 val_MAPE 13.595% val_RMSE 35.946 lr 0.0005
+  [STGCN/log+v2-stgcn-clean] ep 027 loss 0.1453 val_MAE 22.659 val_MAPE 13.697% val_RMSE 35.863 lr 0.0005
+  [STGCN/log+v2-stgcn-clean] ep 028 loss 0.1452 val_MAE 22.646 val_MAPE 13.774% val_RMSE 35.901 lr 0.0005
+  [STGCN/log+v2-stgcn-clean] ep 029 loss 0.1445 val_MAE 22.589 val_MAPE 13.612% val_RMSE 35.835 lr 0.00025
+  [STGCN/log+v2-stgcn-clean] ep 030 loss 0.1444 val_MAE 22.669 val_MAPE 13.612% val_RMSE 35.949 lr 0.00025
+  [STGCN/log+v2-stgcn-clean] ep 031 loss 0.1443 val_MAE 22.568 val_MAPE 13.545% val_RMSE 35.812 lr 0.00025
+  [STGCN/log+v2-stgcn-clean] ep 032 loss 0.1443 val_MAE 22.560 val_MAPE 13.548% val_RMSE 35.803 lr 0.00025
+  [STGCN/log+v2-stgcn-clean] ep 033 loss 0.1442 val_MAE 22.543 val_MAPE 13.592% val_RMSE 35.801 lr 0.00025
+  [STGCN/log+v2-stgcn-clean] ep 034 loss 0.1441 val_MAE 22.545 val_MAPE 13.602% val_RMSE 35.806 lr 0.00025
+  [STGCN/log+v2-stgcn-clean] ep 035 loss 0.1441 val_MAE 22.534 val_MAPE 13.632% val_RMSE 35.778 lr 0.00025
+  [STGCN/log+v2-stgcn-clean] ep 036 loss 0.1440 val_MAE 22.518 val_MAPE 13.594% val_RMSE 35.791 lr 0.00025
+  [STGCN/log+v2-stgcn-clean] ep 037 loss 0.1439 val_MAE 22.535 val_MAPE 13.617% val_RMSE 35.771 lr 0.00025
+  [STGCN/log+v2-stgcn-clean] ep 038 loss 0.1435 val_MAE 22.432 val_MAPE 13.552% val_RMSE 35.662 lr 0.00013
+  [STGCN/log+v2-stgcn-clean] ep 039 loss 0.1435 val_MAE 22.504 val_MAPE 13.519% val_RMSE 35.764 lr 0.00013
+  [STGCN/log+v2-stgcn-clean] ep 040 loss 0.1434 val_MAE 22.449 val_MAPE 13.589% val_RMSE 35.674 lr 0.00013
+  [STGCN/log+v2-stgcn-clean] ep 041 loss 0.1434 val_MAE 22.485 val_MAPE 13.593% val_RMSE 35.717 lr 0.00013
+  [STGCN/log+v2-stgcn-clean] ep 042 loss 0.1433 val_MAE 22.471 val_MAPE 13.544% val_RMSE 35.744 lr 0.00013
+  [STGCN/log+v2-stgcn-clean] ep 043 loss 0.1433 val_MAE 22.471 val_MAPE 13.527% val_RMSE 35.699 lr 0.00013
+  [STGCN/log+v2-stgcn-clean] ep 044 loss 0.1433 val_MAE 22.449 val_MAPE 13.457% val_RMSE 35.689 lr 0.00013
+  [STGCN/log+v2-stgcn-clean] ep 045 loss 0.1432 val_MAE 22.420 val_MAPE 13.497% val_RMSE 35.680 lr 0.00013
+  [STGCN/log+v2-stgcn-clean] ep 046 loss 0.1432 val_MAE 22.422 val_MAPE 13.487% val_RMSE 35.671 lr 0.00013
