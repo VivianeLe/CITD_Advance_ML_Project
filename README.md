@@ -1,5 +1,24 @@
 # CITD_Advance_ML_Project
 
+## Chạy giao diện Gradio trên máy cá nhân
+
+Ứng dụng dùng STID và scaler đã lưu trong repo. Giao diện chạy trên CPU. Cài Python 3.11, mở PowerShell trong thư mục dự án và chạy:
+
+```powershell
+py -3.11 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements-gradio.txt
+.\.venv\Scripts\python.exe app.py
+```
+
+Mở địa chỉ local mà Gradio in ra, thường là `http://127.0.0.1:7860`. Môi trường Python đã cài các thư viện trên cũng có thể chạy `python app.py`.
+
+- **Dự báo** mở sẵn tập test PeMS04. Chọn thời điểm và bấm **Dự báo**. Xem lịch sử cùng ba dự báo sau 15, 30 và 60 phút, tính bằng xe/5 phút. Đổi cảm biến để xem kết quả khác của cùng lượt chạy. File CSV kết quả chứa cả 307 cảm biến.
+- **Tải CSV riêng** có file mẫu. Dùng CSV UTF-8 gồm cột `timestamp` và đủ các ID `0` đến `306`, ít nhất 24 dòng liên tiếp, mỗi dòng cách nhau 5 phút. Dùng giờ địa phương của PeMS04, ví dụ `2018-02-17 08:00`. Các cột cảm biến có thể đổi thứ tự. Ô trống là số đo thiếu. Số 0 là lưu lượng hợp lệ. Số đo tương lai chỉ dùng để đối chiếu trên biểu đồ.
+- **Giả lập cảm biến hỏng** so sánh hai dự báo trên cùng cửa sổ. Chọn mất ngẫu nhiên 5/20/30% trong 15/30/45 phút hoặc mất theo vùng 10% trong 15/30 phút cuối. Cảm biến đang chọn khi bấm mô phỏng là tâm vùng. Tâm cần có đủ 31 cảm biến nối với nhau, ví dụ ID 0.
+- **Đánh giá mô hình** hiển thị báo cáo đã lưu của 12 kịch bản trên toàn tập test. Có thể lọc MAE, RMSE, MAPE theo kịch bản và mốc dự báo rồi tải CSV.
+
+## Huấn luyện và tuning
+
 Notebook đang dùng: `build_model - Nam Anh.ipynb`.
 
 Chỉ tiếp tục tune **STID + StandardScaler**; không tune STGCN. Chọn checkpoint và
