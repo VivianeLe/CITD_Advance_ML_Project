@@ -1,0 +1,6 @@
+gradio==6.32.0
+torch==2.7.1
+numpy==2.2.0
+pandas==2.2.3
+scipy>=1.14,<2
+matplotlib>=3.9,<4
