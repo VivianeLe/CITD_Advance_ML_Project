@@ -1,6 +1,6 @@
 # CITD_Advance_ML_Project
 
-## Chạy giao diện Gradio trên máy cá nhân
+## Hướng dẫn sử dụng giao diện
 
 Ứng dụng chạy trên CPU, dùng model STID và scaler đã lưu trong repo.
 
