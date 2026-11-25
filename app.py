@@ -46,6 +46,9 @@ class TrafficApp:
         return frame.index[self.predictor.n_past - 1:]
 
     def forecast(self, frame, origin, *, mode="clean", percent=5, minutes=15, center=None, seed=2026):
+        # Only the built-in dataset is used for synthetic outages, even if a CSV matches it.
+        if mode != "clean" and frame is not self.demo:
+            raise ValueError("Chỉ dữ liệu mẫu PeMS04 mới hỗ trợ giả lập cảm biến hỏng.")
         history = window_at(frame, origin).copy()
         origin = history.index[-1]
         clean = self.predictor.predict(history)

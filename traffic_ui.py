@@ -119,7 +119,7 @@ def build_ui(service):
             plot = gr.Plot(label="Lưu lượng theo thời gian", visible=False)
             download = gr.DownloadButton("Tải dự báo 307 cảm biến (CSV)", visible=False, size="sm")
 
-            with gr.Accordion("Giả lập cảm biến hỏng", open=False):
+            with gr.Accordion("Giả lập cảm biến hỏng", open=False) as simulation_area:
                 with gr.Row():
                     mode = gr.Radio([("Ngẫu nhiên", "random"), ("Theo vùng", "region")],
                                     value="random", label="Kiểu hỏng")
@@ -180,9 +180,10 @@ def build_ui(service):
             return {
                 **clear_result(), uploaded_frame: frame, selected_origin: selected,
                 upload_area: gr.update(visible=uploaded),
+                simulation_area: gr.update(visible=not uploaded, open=False),
                 upload_status: gr.update(visible=uploaded, value=message),
                 origin: gr.update(choices=choices, value=selected, interactive=bool(choices)),
-                run: gr.update(interactive=bool(choices)), simulate: gr.update(interactive=bool(choices)),
+                run: gr.update(interactive=bool(choices)), simulate: gr.update(interactive=not uploaded),
             }
 
         def show_forecast(view, sensor_id):
@@ -263,7 +264,7 @@ def build_ui(service):
         ordered = {"concurrency_id": "forecast-controls", "concurrency_limit": 1,
                    "show_progress": "minimal"}
         gr.on([source.input, csv_file.change], select_data, [source, csv_file],
-              [uploaded_frame, selected_origin, upload_area, upload_status, origin, run, simulate,
+              [uploaded_frame, selected_origin, upload_area, simulation_area, upload_status, origin, run, simulate,
                *result_components],
               api_name="select_data", **ordered)
         origin.input(select_time, origin, [selected_origin, *result_components],

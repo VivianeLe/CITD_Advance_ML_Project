@@ -62,6 +62,29 @@ class TrafficAppTests(unittest.TestCase):
         self.assertEqual(exported.sensor_id.nunique(), 307)
         self.assertEqual(set(exported.horizon_minutes), {15, 30, 60})
 
+    def test_uploaded_csv_preserves_measurements_and_rejects_faults(self):
+        history = self.app.demo.iloc[:24].copy()
+        history.iloc[-1, 0] = np.nan
+        history.iloc[-1, 1] = 0
+        with TemporaryDirectory() as directory:
+            path = Path(directory) / "traffic.csv"
+            history.to_csv(path)
+            uploaded = self.app.load_csv(path)
+        origin = history.index[-1]
+        result = self.app.forecast(uploaded, origin)
+        np.testing.assert_array_equal(result.history.to_numpy(), history.to_numpy())
+        np.testing.assert_array_equal(result.clean, self.app.predictor.predict(history))
+        self.assertIsNone(result.simulated)
+        exported = pd.read_csv(self.app.export_forecast(result))
+        self.assertEqual(len(exported), 307 * 3)
+        self.assertEqual(set(exported.columns), {
+            "sensor_id", "forecast_origin", "horizon_minutes", "target_timestamp",
+            "forecast_clean", "observed",
+        })
+        for mode in ("random", "region"):
+            with self.subTest(mode=mode), self.assertRaisesRegex(ValueError, "Chỉ dữ liệu mẫu PeMS04"):
+                self.app.forecast(uploaded, origin, mode=mode)
+
 
 if __name__ == "__main__":
     unittest.main()
