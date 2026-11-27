@@ -15,10 +15,10 @@
 
 3. **Lần sau**, chạy lại `app.py`. Nếu gặp `No module named 'gradio'`, chọn lại `.venv` và chạy lại lệnh `pip install` ở bước 1.
 
-- **Dự báo** mở sẵn tập test PeMS04. Chọn thời điểm và bấm **Dự báo**. Xem lịch sử cùng ba dự báo sau 15, 30 và 60 phút, tính bằng xe/5 phút. Đổi cảm biến để xem kết quả khác của cùng lượt chạy. File CSV kết quả chứa cả 307 cảm biến.
-- **Tải CSV riêng** có file mẫu. Dùng CSV UTF-8 gồm cột `timestamp` và đủ các ID `0` đến `306`, ít nhất 24 dòng liên tiếp, mỗi dòng cách nhau 5 phút. Dùng giờ địa phương của PeMS04, ví dụ `2018-02-17 08:00`. Các cột cảm biến có thể đổi thứ tự. STID dự báo từ 24 mốc trong file kết thúc tại thời điểm đã chọn. Ô trống là số đo thiếu. Số 0 là lưu lượng hợp lệ. Số đo tương lai chỉ dùng để đối chiếu trên biểu đồ.
+- **Dự báo** mở sẵn tập test PeMS04. Chọn cảm biến và bấm **Dự báo**. STID tự dùng 24 mốc cuối dữ liệu để dự báo sau mốc cuối 15 và 30 phút, tính bằng xe/5 phút. Đổi cảm biến để xem kết quả khác của cùng lượt chạy. File CSV kết quả chứa cả 307 cảm biến và hai mốc dự báo.
+- **Tải CSV riêng** có file mẫu. Dùng CSV UTF-8 gồm cột `timestamp` và đủ các ID `0` đến `306`, ít nhất 24 dòng liên tiếp, mỗi dòng cách nhau 5 phút. Dùng giờ địa phương của PeMS04, ví dụ `2018-02-17 08:00`. Các cột cảm biến có thể đổi thứ tự. STID dùng 24 mốc cuối trong file; giữ nguyên timestamp gốc. Ô trống là số đo thiếu. Số 0 là lưu lượng hợp lệ.
 - **Giả lập cảm biến hỏng** chỉ có khi chọn **PeMS04 có sẵn**. Chức năng này so sánh hai dự báo trên cùng cửa sổ. Chọn mất ngẫu nhiên 5/20/30% trong 15/30/45 phút hoặc mất theo vùng 10% trong 15/30 phút cuối. Cảm biến đang chọn khi bấm mô phỏng là tâm vùng. Tâm cần có đủ 31 cảm biến nối với nhau, ví dụ ID 0.
-- **Đánh giá mô hình** hiển thị báo cáo đã lưu của 12 kịch bản trên toàn tập test. Có thể lọc MAE, RMSE, MAPE theo kịch bản và mốc dự báo rồi tải CSV.
+- **Đánh giá mô hình** hiển thị báo cáo đã lưu của 12 kịch bản trên toàn tập test. Báo cáo giữ ba mốc 15, 30, 60 phút và trung bình ba mốc. Có thể lọc MAE, RMSE, MAPE theo kịch bản và mốc dự báo rồi tải CSV.
 
 ## Huấn luyện và tuning
 
