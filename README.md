@@ -1,21 +1,24 @@
 # CITD_Advance_ML_Project
 
-## Chạy giao diện Gradio trên máy cá nhân
+## Hướng dẫn sử dụng giao diện
 
-Ứng dụng dùng STID và scaler đã lưu trong repo. Giao diện chạy trên CPU. Cài Python 3.11, mở PowerShell trong thư mục dự án và chạy:
+Ứng dụng chạy trên CPU, dùng model STID và scaler đã lưu trong repo.
 
-```powershell
-py -3.11 -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements-gradio.txt
-.\.venv\Scripts\python.exe app.py
-```
+1. **Lần đầu**, mở thư mục chứa `app.py` trong VS Code. Cài Python 3.11 rồi chạy hai lệnh sau trong terminal PowerShell của dự án.
 
-Mở địa chỉ local mà Gradio in ra, thường là `http://127.0.0.1:7860`. Môi trường Python đã cài các thư viện trên cũng có thể chạy `python app.py`.
+   ```powershell
+   py -3.11 -m venv .venv
+   .\.venv\Scripts\python.exe -m pip install -r requirements-gradio.txt
+   ```
 
-- **Dự báo** mở sẵn tập test PeMS04. Chọn thời điểm và bấm **Dự báo**. Xem lịch sử cùng ba dự báo sau 15, 30 và 60 phút, tính bằng xe/5 phút. Đổi cảm biến để xem kết quả khác của cùng lượt chạy. File CSV kết quả chứa cả 307 cảm biến.
-- **Tải CSV riêng** có file mẫu. Dùng CSV UTF-8 gồm cột `timestamp` và đủ các ID `0` đến `306`, ít nhất 24 dòng liên tiếp, mỗi dòng cách nhau 5 phút. Dùng giờ địa phương của PeMS04, ví dụ `2018-02-17 08:00`. Các cột cảm biến có thể đổi thứ tự. Ô trống là số đo thiếu. Số 0 là lưu lượng hợp lệ. Số đo tương lai chỉ dùng để đối chiếu trên biểu đồ.
-- **Giả lập cảm biến hỏng** so sánh hai dự báo trên cùng cửa sổ. Chọn mất ngẫu nhiên 5/20/30% trong 15/30/45 phút hoặc mất theo vùng 10% trong 15/30 phút cuối. Cảm biến đang chọn khi bấm mô phỏng là tâm vùng. Tâm cần có đủ 31 cảm biến nối với nhau, ví dụ ID 0.
-- **Đánh giá mô hình** hiển thị báo cáo đã lưu của 12 kịch bản trên toàn tập test. Có thể lọc MAE, RMSE, MAPE theo kịch bản và mốc dự báo rồi tải CSV.
+2. **Mở giao diện**, nhấn `Ctrl+Shift+P`, chọn **Python: Select Interpreter** rồi chọn `.venv\Scripts\python.exe`. Mở `app.py`, bấm **Run Python File in Terminal** và mở link terminal hiển thị, thường là `http://127.0.0.1:7860`.
+
+3. **Lần sau**, chạy lại `app.py`. Nếu gặp `No module named 'gradio'`, chọn lại `.venv` và chạy lại lệnh `pip install` ở bước 1.
+
+- **Dự báo** mở sẵn tập test PeMS04. Chọn cảm biến và bấm **Dự báo**. STID tự dùng 24 mốc cuối dữ liệu để dự báo sau mốc cuối 15 và 30 phút, tính bằng xe/5 phút. Đổi cảm biến để xem kết quả khác của cùng lượt chạy. File CSV kết quả chứa cả 307 cảm biến và hai mốc dự báo.
+- **Tải CSV riêng** có file mẫu. Dùng CSV UTF-8 gồm cột `timestamp` và đủ các ID `0` đến `306`, ít nhất 24 dòng liên tiếp, mỗi dòng cách nhau 5 phút. Dùng giờ địa phương của PeMS04, ví dụ `2018-02-17 08:00`. Các cột cảm biến có thể đổi thứ tự. STID dùng 24 mốc cuối trong file; giữ nguyên timestamp gốc. Ô trống là số đo thiếu. Số 0 là lưu lượng hợp lệ.
+- **Giả lập cảm biến hỏng** chỉ có khi chọn **PeMS04 có sẵn**. Chức năng này so sánh hai dự báo trên cùng cửa sổ. Chọn mất ngẫu nhiên 5/20/30% trong 15/30/45 phút hoặc mất theo vùng 10% trong 15/30 phút cuối. Cảm biến đang chọn khi bấm mô phỏng là tâm vùng. Tâm cần có đủ 31 cảm biến nối với nhau, ví dụ ID 0.
+- **Đánh giá mô hình** hiển thị báo cáo đã lưu của 12 kịch bản trên toàn tập test. Báo cáo giữ ba mốc 15, 30, 60 phút và trung bình ba mốc. Có thể lọc MAE, RMSE, MAPE theo kịch bản và mốc dự báo rồi tải CSV.
 
 ## Huấn luyện và tuning
 

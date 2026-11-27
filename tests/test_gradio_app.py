@@ -24,12 +24,32 @@ class TrafficAppTests(unittest.TestCase):
     def test_demo_matches_notebook(self):
         result = self.app.forecast(self.app.demo, "2018-02-17 08:00")
         # Clean CPU inference in build_model - Nam Anh.ipynb, same test window.
-        reference = [[267.76575, 295.13358, 312.47266],
-                     [99.22418, 108.89818, 121.70652],
-                     [190.36749, 204.35625, 213.57994]]
+        reference = [[267.76575, 295.13358],
+                     [99.22418, 108.89818],
+                     [190.36749, 204.35625]]
         np.testing.assert_allclose(result.clean[[0, 200, 306]], reference, atol=0.001, rtol=0)
-        self.assertEqual(result.clean.shape, (307, 3))
+        self.assertEqual(result.horizons_minutes, (15, 30))
+        self.assertEqual(result.clean.shape, (307, 2))
+        self.assertEqual(result.actual.shape, (307, 2))
+        native = self.app.predictor.predict(result.history)
+        self.assertEqual(native.shape, (307, 3))
+        np.testing.assert_array_equal(result.clean, native[:, :2])
         self.assertEqual(len(self.app.report), 12)
+        self.assertTrue({"MAE_15", "MAE_30", "MAE_60", "MAE_avg"}.issubset(self.app.report.columns))
+
+    def test_default_origin_uses_latest_window_for_demo_and_uploaded_csv(self):
+        with TemporaryDirectory() as directory:
+            path = Path(directory) / "traffic.csv"
+            self.app.demo.iloc[35:95].to_csv(path)
+            uploaded = self.app.load_csv(path)
+        for name, frame in (("demo", self.app.demo), ("csv", uploaded)):
+            with self.subTest(source=name):
+                result = self.app.forecast(frame)
+                self.assertEqual(result.origin, frame.index[-1])
+                pd.testing.assert_frame_equal(result.history, frame.iloc[-24:])
+                self.assertEqual(result.clean.shape, (307, 2))
+                self.assertTrue(np.isfinite(result.clean).all())
+                self.assertTrue(np.isnan(result.actual).all())
 
     def test_template_without_future_and_reordered_columns(self):
         template = self.app.load_csv(self.app.csv_template())
@@ -52,15 +72,41 @@ class TrafficAppTests(unittest.TestCase):
         first = self.app.forecast(self.app.demo, origin, **settings)
         again = self.app.forecast(self.app.demo, origin, **settings)
         np.testing.assert_array_equal(first.simulated, again.simulated)
+        self.assertEqual(first.simulated.shape, (307, 2))
         self.assertEqual(len(first.affected_ids), 61)
         self.assertFalse(np.array_equal(first.clean, first.simulated))
         region = self.app.forecast(self.app.demo, origin, mode="region", percent=10, minutes=30, center="0")
         self.assertEqual(len(region.affected_ids), 31)
         self.assertIn("0", region.affected_ids)
         exported = pd.read_csv(self.app.export_forecast(region))
-        self.assertEqual(len(exported), 307 * 3)
+        self.assertEqual(len(exported), 307 * 2)
         self.assertEqual(exported.sensor_id.nunique(), 307)
-        self.assertEqual(set(exported.horizon_minutes), {15, 30, 60})
+        self.assertEqual(set(exported.horizon_minutes), {15, 30})
+        targets = pd.to_datetime(exported.forecast_origin) + pd.to_timedelta(exported.horizon_minutes, unit="min")
+        pd.testing.assert_series_equal(pd.to_datetime(exported.target_timestamp), targets, check_names=False)
+
+    def test_uploaded_csv_preserves_measurements_and_rejects_faults(self):
+        history = self.app.demo.iloc[:24].copy()
+        history.iloc[-1, 0] = np.nan
+        history.iloc[-1, 1] = 0
+        with TemporaryDirectory() as directory:
+            path = Path(directory) / "traffic.csv"
+            history.to_csv(path)
+            uploaded = self.app.load_csv(path)
+        origin = history.index[-1]
+        result = self.app.forecast(uploaded, origin)
+        np.testing.assert_array_equal(result.history.to_numpy(), history.to_numpy())
+        np.testing.assert_array_equal(result.clean, self.app.predictor.predict(history)[:, :2])
+        self.assertIsNone(result.simulated)
+        exported = pd.read_csv(self.app.export_forecast(result))
+        self.assertEqual(len(exported), 307 * 2)
+        self.assertEqual(set(exported.columns), {
+            "sensor_id", "forecast_origin", "horizon_minutes", "target_timestamp",
+            "forecast_clean", "observed",
+        })
+        for mode in ("random", "region"):
+            with self.subTest(mode=mode), self.assertRaisesRegex(ValueError, "Chỉ dữ liệu mẫu PeMS04"):
+                self.app.forecast(uploaded, origin, mode=mode)
 
 
 if __name__ == "__main__":

@@ -22,11 +22,15 @@ class Forecast:
     actual: np.ndarray
     fault: dict | None
     affected_ids: tuple[str, ...]
+    horizons_minutes: tuple[int, ...]
 
 
 class TrafficApp:
     def __init__(self, root):
         self.predictor = STIDPredictor(root)
+        self.horizons_minutes = (15, 30)
+        self._horizon_indices = [self.predictor.horizons_minutes.index(h)
+                                 for h in self.horizons_minutes]
         self.sensor_ids = self.predictor.sensor_ids
         self.demo = load_demo(root)
         self.report = load_report(root)
@@ -42,22 +46,27 @@ class TrafficApp:
     def load_csv(self, path):
         return load_csv(path, self.sensor_ids)
 
-    def valid_times(self, frame):
-        return frame.index[self.predictor.n_past - 1:]
-
-    def forecast(self, frame, origin, *, mode="clean", percent=5, minutes=15, center=None, seed=2026):
+    def forecast(self, frame, origin=None, *, mode="clean", percent=5, minutes=15, center=None, seed=2026):
+        # Only the built-in dataset is used for synthetic outages, even if a CSV matches it.
+        if mode != "clean" and frame is not self.demo:
+            raise ValueError("Chỉ dữ liệu mẫu PeMS04 mới hỗ trợ giả lập cảm biến hỏng.")
+        if origin is None:
+            if frame.empty:
+                raise ValueError("Không có dữ liệu để dự báo.")
+            origin = frame.index[-1]
         history = window_at(frame, origin).copy()
         origin = history.index[-1]
-        clean = self.predictor.predict(history)
+        clean = self.predictor.predict(history)[:, self._horizon_indices]
         simulated = None
         fault = None
         affected = ()
         if mode != "clean":
             fault = dict(mode=mode, percent=percent, minutes=minutes, center=center, seed=seed)
-            simulated = self.predictor.predict(history, fault=fault)
+            simulated = self.predictor.predict(history, fault=fault)[:, self._horizon_indices]
             affected = self.predictor.affected_sensor_ids(fault)
-        actual = observations_at(frame, origin, self.predictor.horizons_minutes).to_numpy()
-        return Forecast(origin, history, clean, simulated, actual, fault, affected)
+        actual = observations_at(frame, origin, self.horizons_minutes).to_numpy()
+        return Forecast(origin, history, clean, simulated, actual, fault, affected,
+                        self.horizons_minutes)
 
     def _write_csv(self, frame, filename):
         # Each download keeps its own file, including across browser sessions.
@@ -67,7 +76,7 @@ class TrafficApp:
         return str(path)
 
     def export_forecast(self, result):
-        horizons = self.predictor.horizons_minutes
+        horizons = result.horizons_minutes
         horizon_column = np.tile(horizons, len(self.sensor_ids))
         table = pd.DataFrame({
             "sensor_id": np.repeat(self.sensor_ids, len(horizons)),
